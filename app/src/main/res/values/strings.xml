@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">ChernykhHomework</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="registration">New</string>
+    <string name="log_in">Log in</string>
+    <string name="some_warning">Some Warning</string>
+    <string name="login_warning">The name field or password field should not be empty</string>
+    <string name="amount_title">Amount (limit %d):</string>
+    <string name="firstname_title">Firstname:</string>
+    <string name="lastname_title">Lastname:</string>
+    <string name="percent_title">Percent:</string>
+    <string name="percent">%d%</string>
+    <string name="period_title">Period:</string>
+    <string name="phone_number_title">Phone number:</string>
+    <string name="empty_fields_warning">All fields must be filled in</string>
+    <string name="arrange">Arrange</string>
+    <string name="amount">Amount: %d</string>
+    <string name="date">Date: %s</string>
+    <string name="state">State: %s</string>
+    <string name="firstname">Firstname: %s</string>
+    <string name="lastname">Lastname: %s</string>
+    <string name="percent2">Percent: %s</string>
+    <string name="period">Period: %s</string>
+    <string name="phone_number">Phone number: %s</string>
 </resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/registrationFragment">
+
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.chernykhhomework.ui.fragments.RegistrationFragment"
+        android:label="RegistrationFragment">
+        <action
+            app:popUpToInclusive="true"
+            android:id="@+id/action_registrationFragment_to_newLoanFragment"
+            app:destination="@id/newLoanFragment" />
+        <action
+            app:popUpToInclusive="true"
+            android:id="@+id/action_registrationFragment_to_loansListFragment"
+            app:destination="@id/loansListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newLoanFragment"
+        android:name="com.example.chernykhhomework.ui.fragments.NewLoanFragment"
+        android:label="NewLoanFragment">
+        <action
+            app:popUpToInclusive="true"
+            android:id="@+id/action_newLoanFragment_to_loansListFragment"
+            app:destination="@id/loansListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loansListFragment"
+        android:name="com.example.chernykhhomework.ui.fragments.LoansListFragment"
+        android:label="LoansListFragment">
+        <action
+            app:popUpToInclusive="true"
+            android:id="@+id/action_loansListFragment_to_loanFragment"
+            app:destination="@id/loanFragment" />
+        <action
+            app:popUpToInclusive="true"
+            android:id="@+id/action_loansListFragment_to_newLoanFragment"
+            app:destination="@id/newLoanFragment" />
+        <action
+            app:popUpToInclusive="true"
+            android:id="@+id/action_loansListFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loanFragment"
+        android:name="com.example.chernykhhomework.ui.fragments.LoanFragment"
+        android:label="LoanFragment">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+</navigation>
