@@ -38,7 +38,6 @@ class RegistrationFragment : Fragment() {
 
         setUIStateObserver()
         setOnClickListeners()
-
     }
 
     private fun setOnClickListeners() {
@@ -69,23 +68,69 @@ class RegistrationFragment : Fragment() {
     private fun setUIStateObserver() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
+
                 is RegisterUIState.Initializing -> {
-                    //Шото надо придумать
+                    showContentLinearLayout()
+                    notNullBinding.warningTextView.isVisible = false
+                    val appIsRunning =
+                        arguments?.getBoolean(LoansListFragment.APP_IS_RUNNING_ARGUMENT_KEY)
+                            ?: false
+                    if (!appIsRunning) {
+                        viewModel.autoLogIn()
+                    }
                 }
 
                 is RegisterUIState.Loading -> {
-                    //Шото надо реализовать
+                    notNullBinding.warningTextView.isVisible = false
+                    showLoadingProgressBar()
                 }
 
                 is RegisterUIState.Success -> {
-                    findNavController().navigate(R.id.action_registrationFragment_to_newLoanFragment)
+                    showContentLinearLayout()
+                    if (state.user != null) {
+                        showWelcomeTextView(state.user.name)
+                        if (state.firstEntry) {
+                            findNavController().navigate(R.id.action_registrationFragment_to_newLoanFragment)
+                        } else {
+                            findNavController().navigate(R.id.action_registrationFragment_to_loansListFragment)
+                        }
+                    }
                 }
 
                 is RegisterUIState.Error -> {
-                    notNullBinding.warningTextView.isVisible = true
-                    notNullBinding.warningTextView.text = state.message
+                    showContentLinearLayout()
+                    notNullBinding.apply {
+                        warningTextView.isVisible = true
+                        warningTextView.text = state.message
+                    }
                 }
+
             }
+        }
+    }
+
+    private fun showContentLinearLayout() {
+        notNullBinding.apply {
+            contentLinearLayout.visibility = View.VISIBLE
+            loadingProgressBar.visibility = View.GONE
+            welcomeTextView.visibility = View.GONE
+        }
+    }
+
+    private fun showLoadingProgressBar() {
+        notNullBinding.apply {
+            contentLinearLayout.visibility = View.GONE
+            loadingProgressBar.visibility = View.VISIBLE
+            welcomeTextView.visibility = View.GONE
+        }
+    }
+
+    private fun showWelcomeTextView(name: String) {
+        notNullBinding.apply {
+            contentLinearLayout.visibility = View.GONE
+            loadingProgressBar.visibility = View.GONE
+            welcomeTextView.visibility = View.VISIBLE
+            notNullBinding.welcomeTextView.text = requireContext().getString(R.string.welcome, name)
         }
     }
 

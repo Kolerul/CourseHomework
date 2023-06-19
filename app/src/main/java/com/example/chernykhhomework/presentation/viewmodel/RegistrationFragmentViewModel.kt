@@ -25,8 +25,8 @@ class RegistrationFragmentViewModel @Inject constructor(
         val auth = Auth(name, password)
         viewModelScope.launch(dispatcher) {
             try {
-                repository.registration(auth)
-                _uiState.postValue(RegisterUIState.Success)
+                val user = repository.registration(auth)
+                _uiState.postValue(RegisterUIState.Success(user, true))
             } catch (e: Exception) {
                 _uiState.postValue(RegisterUIState.Error(e.message.toString()))
             }
@@ -39,8 +39,21 @@ class RegistrationFragmentViewModel @Inject constructor(
         val auth = Auth(name, password)
         viewModelScope.launch(dispatcher) {
             try {
-                repository.login(auth)
-                _uiState.postValue(RegisterUIState.Success)
+                val user = repository.login(auth)
+                _uiState.postValue(RegisterUIState.Success(user, false))
+            } catch (e: Exception) {
+                _uiState.postValue(RegisterUIState.Error(e.message.toString()))
+            }
+
+        }
+    }
+
+    fun autoLogIn() {
+        _uiState.value = RegisterUIState.Loading
+        viewModelScope.launch(dispatcher) {
+            try {
+                val user = repository.autoLogin()
+                _uiState.postValue(RegisterUIState.Success(user, false))
             } catch (e: Exception) {
                 _uiState.postValue(RegisterUIState.Error(e.message.toString()))
             }

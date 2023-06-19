@@ -2,168 +2,237 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/new_loan_fragment_toolbar"
+                app:title="New loan"
+                app:titleTextColor="@color/white"
+                app:menu="@menu/new_loan_fragment_menu"
+                app:navigationIcon="@drawable/ic_account_circle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/purple_500"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/start_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="10dp" />
+
 
             <TextView
                 android:id="@+id/amount_title_text_view"
-                android:text="@string/amount_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/amount_title"
+                app:layout_constraintBottom_toBottomOf="@id/amount_text_view"
+                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintTop_toTopOf="@id/amount_text_view" />
 
             <EditText
                 android:id="@+id/amount_text_view"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="6dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:inputType="number"
                 android:minWidth="100dp"
-                android:inputType="number" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal">
+                app:layout_constraintBottom_toBottomOf="@id/amount_title_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/amount_title_text_view"
+                app:layout_constraintTop_toBottomOf="@id/new_loan_fragment_toolbar"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/first_name_title_text_view"
                 android:text="@string/firstname_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/first_name_text_view"
+                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintBottom_toBottomOf="@id/first_name_text_view" />
 
             <EditText
                 android:id="@+id/first_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
                 android:layout_height="wrap_content"
-                android:minWidth="100dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal">
+                android:minWidth="100dp"
+                app:layout_constraintTop_toBottomOf="@id/amount_text_view"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/first_name_title_text_view"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/last_name_title_text_view"
-                android:text="@string/lastname_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/lastname_title"
+                app:layout_constraintBottom_toBottomOf="@id/last_name_text_view"
+                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintTop_toTopOf="@+id/last_name_text_view" />
 
             <EditText
                 android:id="@+id/last_name_text_view"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="6dp"
                 android:layout_height="wrap_content"
-                android:minWidth="100dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal">
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:minWidth="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/last_name_title_text_view"
+                app:layout_constraintTop_toBottomOf="@id/first_name_text_view" />
 
             <TextView
                 android:id="@+id/percent_title_text_view"
-                android:text="@string/percent_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/percent_title"
+                app:layout_constraintBottom_toBottomOf="@id/percent_text_view"
+                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintTop_toTopOf="@+id/percent_text_view" />
 
             <TextView
                 android:id="@+id/percent_text_view"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="6dp"
                 android:layout_height="wrap_content"
-                android:text="Some text" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal">
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:text="Some text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/percent_title_text_view"
+                app:layout_constraintTop_toBottomOf="@id/last_name_text_view" />
 
             <TextView
                 android:id="@+id/period_title_text_view"
-                android:text="@string/period_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/period_title"
+                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintTop_toTopOf="@+id/period_text_view" />
 
             <TextView
                 android:id="@+id/period_text_view"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="6dp"
                 android:layout_height="wrap_content"
-                android:text="Some text" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal">
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:text="Some text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/period_title_text_view"
+                app:layout_constraintTop_toBottomOf="@id/percent_text_view" />
 
             <TextView
                 android:id="@+id/phone_number_title_text_view"
-                android:text="@string/phone_number_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/phone_number_title"
+                app:layout_constraintBottom_toBottomOf="@id/phone_number_text_view"
+                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintTop_toTopOf="@+id/phone_number_text_view" />
 
             <EditText
                 android:id="@+id/phone_number_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
                 android:inputType="phone"
                 android:minWidth="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/phone_number_title_text_view"
+                app:layout_constraintTop_toBottomOf="@id/period_text_view"
                 tools:ignore="TextFields" />
 
+            <TextView
+                android:id="@+id/empty_fields_warning_text_view"
+                android:text="@string/empty_fields_warning"
+                android:textColor="@color/red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@id/phone_number_text_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/arrange_button"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/arrange"
+                app:layout_constraintTop_toBottomOf="@id/empty_fields_warning_text_view"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:id="@+id/request_result_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/new_loan_fragment_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/request_result_image"
+                android:src="@drawable/ic_success"
+                android:layout_width="200dp"
+                android:layout_height="200dp" />
+
+            <TextView
+                android:layout_marginTop="6dp"
+                android:text="@string/successful_new_loan_request"
+                android:id="@+id/request_result_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/empty_fields_warning_text_view"
-            android:text="@string/empty_fields_warning"
-            android:textColor="@color/red"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+        <ProgressBar
             android:layout_gravity="center"
-            android:visibility="invisible" />
-
-        <Button
-            android:id="@+id/arrange_button"
-            android:layout_marginEnd="12dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
+            android:id="@+id/loading_progress_bar"
             android:layout_width="wrap_content"
+            android:indeterminateDrawable="@drawable/spinner_ring"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="@string/arrange" />
-
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </LinearLayout>
+
+
 </ScrollView>

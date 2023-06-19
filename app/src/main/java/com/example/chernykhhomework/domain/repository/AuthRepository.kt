@@ -4,7 +4,9 @@ import com.example.chernykhhomework.data.network.entity.Auth
 
 interface AuthRepository {
 
-    suspend fun login(auth: Auth): String
+    suspend fun login(auth: Auth): Auth
 
-    suspend fun registration(auth: Auth)
+    suspend fun registration(auth: Auth): Auth
+
+    suspend fun autoLogin(): Auth?
 }

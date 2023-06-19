@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.chernykhhomework.App
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentLoanBinding
@@ -36,13 +38,34 @@ class LoanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUIStateObserver()
+        setOnItemMenuClickListeners()
+    }
+
+    private fun setOnItemMenuClickListeners() {
+        notNullBinding.loanFragmentToolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.help_button -> {
+                    //Какая то помощь
+                    true
+                }
+
+                else -> {
+                    false
+                }
+            }
+        }
+
+        notNullBinding.loanFragmentToolbar.setNavigationOnClickListener {
+            val bundle = bundleOf(LoansListFragment.APP_IS_RUNNING_ARGUMENT_KEY to true)
+            findNavController().navigate(R.id.action_global_registrationFragment, bundle)
+        }
     }
 
     private fun setUIStateObserver() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoanUIState.Initializing -> {
-                    val id = arguments?.getInt(LoansListFragment.ID_KEY) ?: -1
+                    val id = arguments?.getInt(LoansListFragment.ID_ARGUMENT_KEY) ?: -1
                     viewModel.getLoanById(id)
                 }
 
@@ -52,6 +75,8 @@ class LoanFragment : Fragment() {
 
                 is LoanUIState.Success -> {
                     notNullBinding.apply {
+                        val title = requireContext().getString(R.string.loan_number, state.loan.id)
+                        loanFragmentToolbar.title = title
                         loanAmount.text =
                             requireContext().getString(R.string.amount, state.loan.amount)
                         loanDate.text = requireContext().getString(R.string.date, state.loan.date)

@@ -1,7 +1,6 @@
 package com.example.chernykhhomework.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,12 +38,36 @@ class LoansListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = LoansAdapter() { loan ->
-            val bundle = bundleOf(ID_KEY to loan.id)
+            val bundle = bundleOf(ID_ARGUMENT_KEY to loan.id)
             findNavController().navigate(R.id.action_loansListFragment_to_loanFragment, bundle)
         }
         notNullBinding.loanRecyclerView.adapter = adapter
         setUIStateObserver(adapter)
+        setOnMenuItemListener()
+    }
 
+    private fun setOnMenuItemListener() {
+        notNullBinding.loanListFragmentToolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.update_button -> {
+                    viewModel.getLoansList()
+                    true
+                }
+
+                R.id.add_button -> {
+                    findNavController().navigate(R.id.action_loansListFragment_to_newLoanFragment)
+                    true
+                }
+
+                else -> false
+            }
+
+        }
+
+        notNullBinding.loanListFragmentToolbar.setNavigationOnClickListener {
+            val bundle = bundleOf(APP_IS_RUNNING_ARGUMENT_KEY to true)
+            findNavController().navigate(R.id.action_global_registrationFragment, bundle)
+        }
     }
 
     private fun setUIStateObserver(adapter: LoansAdapter) {
@@ -52,19 +75,46 @@ class LoansListFragment : Fragment() {
             when (state) {
                 is LoansListUIState.Initializing -> {
                     viewModel.getLoansList()
+                    showRecyclerView()
                 }
 
                 is LoansListUIState.Loading -> {
-                    // Анимация загрузки
+                    showProgressBar()
                 }
 
                 is LoansListUIState.Success -> {
                     adapter.submitList(state.loansList)
+                    showRecyclerView()
                 }
 
                 is LoansListUIState.Error ->
-                    Log.d("LoansListFragment", state.message)
+                    showErrorLayout(state.message)
             }
+        }
+    }
+
+    private fun showRecyclerView() {
+        notNullBinding.apply {
+            loanRecyclerView.visibility = View.VISIBLE
+            loadingProgressBar.visibility = View.GONE
+            errorLayout.visibility = View.GONE
+        }
+    }
+
+    private fun showProgressBar() {
+        notNullBinding.apply {
+            loanRecyclerView.visibility = View.GONE
+            loadingProgressBar.visibility = View.VISIBLE
+            errorLayout.visibility = View.GONE
+        }
+    }
+
+    private fun showErrorLayout(message: String) {
+        notNullBinding.apply {
+            loanRecyclerView.visibility = View.GONE
+            loadingProgressBar.visibility = View.GONE
+            errorLayout.visibility = View.VISIBLE
+            errorText.text = message
         }
     }
 
@@ -74,6 +124,7 @@ class LoansListFragment : Fragment() {
     }
 
     companion object {
-        const val ID_KEY = "id"
+        const val ID_ARGUMENT_KEY = "id"
+        const val APP_IS_RUNNING_ARGUMENT_KEY = "app is running"
     }
 }

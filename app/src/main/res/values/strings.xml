@@ -10,7 +10,7 @@
     <string name="firstname_title">Firstname:</string>
     <string name="lastname_title">Lastname:</string>
     <string name="percent_title">Percent:</string>
-    <string name="percent">%d%</string>
+    <string name="percent">%d (%)</string>
     <string name="period_title">Period:</string>
     <string name="phone_number_title">Phone number:</string>
     <string name="empty_fields_warning">All fields must be filled in</string>
@@ -23,4 +23,13 @@
     <string name="percent2">Percent: %s</string>
     <string name="period">Period: %s</string>
     <string name="phone_number">Phone number: %s</string>
+    <string name="account">Account</string>
+    <string name="list_of_loans">List of loans</string>
+    <string name="add">Add</string>
+    <string name="help">Help</string>
+    <string name="update">Update</string>
+    <string name="loan_number">Loan #%d</string>
+    <string name="welcome">Welcome, %s</string>
+    <string name="successful_new_loan_request">The application for a new loan has been successfully accepted</string>
+    <string name="error_new_loan_request">Unfortunately, an error occurred when making a loan</string>
 </resources>
