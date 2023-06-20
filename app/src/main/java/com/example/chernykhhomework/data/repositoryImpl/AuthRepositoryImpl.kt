@@ -1,7 +1,10 @@
 package com.example.chernykhhomework.data.repositoryImpl
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.example.chernykhhomework.data.network.SessionData
 import com.example.chernykhhomework.data.network.api.AuthorizationApi
 import com.example.chernykhhomework.data.network.entity.Auth
@@ -34,7 +37,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun autoLogin(): Auth? {
-        val sharedPreferences = context.getSharedPreferences(USER_DATA, Context.MODE_PRIVATE)
+        val sharedPreferences = createEncryptedSharedPref()
         val login = sharedPreferences.getString(LOGIN_KEY, "")
         val password = sharedPreferences.getString(PASSWORD_KEY, "")
         if (login == null || password == null || login.isBlank() || password.isBlank()) {
@@ -44,8 +47,22 @@ class AuthRepositoryImpl @Inject constructor(
         return login(auth)
     }
 
+    private fun createEncryptedSharedPref(): SharedPreferences {
+        val masterKey = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        return EncryptedSharedPreferences.create(
+            context,
+            ENCRYPTED_USER_DATA,
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
+
     private fun addToSharedPref(auth: Auth) {
-        val sharedPreferences = context.getSharedPreferences(USER_DATA, Context.MODE_PRIVATE)
+        val sharedPreferences = createEncryptedSharedPref()
         sharedPreferences.edit()
             .putString(LOGIN_KEY, auth.name)
             .putString(PASSWORD_KEY, auth.password)
@@ -54,7 +71,7 @@ class AuthRepositoryImpl @Inject constructor(
 
 
     companion object {
-        const val USER_DATA = "user"
+        const val ENCRYPTED_USER_DATA = "encrypted_user"
         const val LOGIN_KEY = "login"
         const val PASSWORD_KEY = "password"
     }

@@ -2,9 +2,11 @@ package com.example.chernykhhomework.di
 
 import com.example.chernykhhomework.data.network.api.AuthorizationApi
 import com.example.chernykhhomework.data.network.api.LoansDataSourceApi
+import com.example.chernykhhomework.data.network.interceptor.LogInErrorInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -22,11 +24,18 @@ class NetworkModule {
         MoshiConverterFactory.create(moshi)
 
     @Provides
+    fun provideOkHttpClientWithErrorInterceptor(interceptor: LogInErrorInterceptor): OkHttpClient =
+        OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
+
+    @Provides
     fun provideRetrofit(moshiConverterFactory: MoshiConverterFactory): Retrofit =
         Retrofit.Builder()
             .baseUrl(LoansDataSourceApi.BASE_URL)
             .addConverterFactory(moshiConverterFactory)
             .build()
+
 
     @Provides
     fun provideLoansRetrofitService(retrofit: Retrofit): LoansDataSourceApi =

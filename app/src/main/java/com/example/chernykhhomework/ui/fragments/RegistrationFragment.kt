@@ -1,9 +1,13 @@
 package com.example.chernykhhomework.ui.fragments
 
+import android.animation.ObjectAnimator
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,6 +17,7 @@ import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentRegistrationBinding
 import com.example.chernykhhomework.presentation.uistate.RegisterUIState
 import com.example.chernykhhomework.presentation.viewmodel.RegistrationFragmentViewModel
+
 
 class RegistrationFragment : Fragment() {
 
@@ -43,23 +48,20 @@ class RegistrationFragment : Fragment() {
     private fun setOnClickListeners() {
         notNullBinding.apply {
             registrationButton.setOnClickListener {
-                if (nameEditText.text.isNotBlank() && passwordEditText.text.isNotBlank()) {
+                checkFieldsNotBlankAndPerformLogInAction {
                     viewModel.register(
-                        nameEditText.text.toString(),
-                        passwordEditText.text.toString()
+                        name = nameEditText.text.toString(),
+                        password = passwordEditText.text.toString()
                     )
-                    warningTextView.visibility = View.INVISIBLE
-                } else {
-                    warningTextView.visibility = View.VISIBLE
                 }
             }
 
             logInButton.setOnClickListener {
-                if (nameEditText.text.isNotBlank() && passwordEditText.text.isNotBlank()) {
-                    viewModel.logIn(nameEditText.text.toString(), passwordEditText.text.toString())
-                    warningTextView.visibility = View.INVISIBLE
-                } else {
-                    warningTextView.visibility = View.VISIBLE
+                checkFieldsNotBlankAndPerformLogInAction {
+                    viewModel.logIn(
+                        name = nameEditText.text.toString(),
+                        password = passwordEditText.text.toString()
+                    )
                 }
             }
         }
@@ -88,11 +90,16 @@ class RegistrationFragment : Fragment() {
                 is RegisterUIState.Success -> {
                     showContentLinearLayout()
                     if (state.user != null) {
-                        showWelcomeTextView(state.user.name)
                         if (state.firstEntry) {
-                            findNavController().navigate(R.id.action_registrationFragment_to_newLoanFragment)
+                            showWelcomeAnimationAndPerformAction(state.user.name) {
+                                findNavController()
+                                    .navigate(R.id.action_registrationFragment_to_newLoanFragment)
+                            }
                         } else {
-                            findNavController().navigate(R.id.action_registrationFragment_to_loansListFragment)
+                            showWelcomeAnimationAndPerformAction(state.user.name) {
+                                findNavController()
+                                    .navigate(R.id.action_registrationFragment_to_loansListFragment)
+                            }
                         }
                     }
                 }
@@ -104,9 +111,27 @@ class RegistrationFragment : Fragment() {
                         warningTextView.text = state.message
                     }
                 }
-
             }
         }
+    }
+
+    private fun checkFieldsNotBlankAndPerformLogInAction(action: () -> Unit) {
+        notNullBinding.apply {
+            if (nameEditText.text.isNotBlank() && passwordEditText.text.isNotBlank()) {
+                action.invoke()
+                warningTextView.visibility = View.INVISIBLE
+            } else {
+                warningTextView.visibility = View.VISIBLE
+                warningTextView.text = requireContext().getString(R.string.empty_fields_warning)
+            }
+            hideSoftKeyboard()
+        }
+    }
+
+    private fun hideSoftKeyboard() {
+        val imm =
+            context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun showContentLinearLayout() {
@@ -125,13 +150,24 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun showWelcomeTextView(name: String) {
+    private fun showWelcomeAnimationAndPerformAction(name: String, endAction: () -> Unit) {
         notNullBinding.apply {
             contentLinearLayout.visibility = View.GONE
             loadingProgressBar.visibility = View.GONE
             welcomeTextView.visibility = View.VISIBLE
             notNullBinding.welcomeTextView.text = requireContext().getString(R.string.welcome, name)
+            notNullBinding.welcomeTextView.alpha = 0f
         }
+
+        val welcomeAnimation = ObjectAnimator.ofFloat(
+            notNullBinding.welcomeTextView, View.ALPHA, 1f
+        ).apply {
+            duration = 2000L
+            doOnEnd {
+                endAction.invoke()
+            }
+        }
+        welcomeAnimation.start()
     }
 
 

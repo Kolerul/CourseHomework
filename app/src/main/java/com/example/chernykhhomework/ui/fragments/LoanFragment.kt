@@ -65,15 +65,17 @@ class LoanFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoanUIState.Initializing -> {
+                    showContentLayout()
                     val id = arguments?.getInt(LoansListFragment.ID_ARGUMENT_KEY) ?: -1
                     viewModel.getLoanById(id)
                 }
 
                 is LoanUIState.Loading -> {
-                    //Анимация
+                    showProgressBar()
                 }
 
                 is LoanUIState.Success -> {
+                    showContentLayout()
                     notNullBinding.apply {
                         val title = requireContext().getString(R.string.loan_number, state.loan.id)
                         loanFragmentToolbar.title = title
@@ -109,6 +111,20 @@ class LoanFragment : Fragment() {
                     //Ошибки
                 }
             }
+        }
+    }
+
+    private fun showContentLayout() {
+        notNullBinding.apply {
+            contentLayout.visibility = View.VISIBLE
+            loadingProgressBar.visibility = View.GONE
+        }
+    }
+
+    private fun showProgressBar() {
+        notNullBinding.apply {
+            contentLayout.visibility = View.GONE
+            loadingProgressBar.visibility = View.VISIBLE
         }
     }
 

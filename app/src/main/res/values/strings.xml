@@ -32,4 +32,8 @@
     <string name="welcome">Welcome, %s</string>
     <string name="successful_new_loan_request">The application for a new loan has been successfully accepted</string>
     <string name="error_new_loan_request">Unfortunately, an error occurred when making a loan</string>
+    <string name="login_registration_error">This login is already occupied</string>
+    <string name="login_or_password_error">Wrong login or password</string>
+    <string name="tap_screen_to_continue">Tap screen to continue</string>
+    <string name="to_list">To list</string>
 </resources>

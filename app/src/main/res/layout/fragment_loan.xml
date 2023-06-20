@@ -15,68 +15,84 @@
         android:layout_height="wrap_content"
         android:background="@color/purple_500" />
 
-    <TextView
-        android:id="@+id/loan_amount"
-        android:text="@string/amount"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
+    <ProgressBar
+        android:layout_weight="1"
+        android:id="@+id/loading_progress_bar"
         android:layout_width="wrap_content"
+        android:indeterminateDrawable="@drawable/spinner_ring"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/loan_date"
-        android:text="@string/date"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/loan_firstname"
-        android:text="@string/firstname_title"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/loan_amount"
+            android:text="@string/amount"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/loan_lastname"
-        android:text="@string/lastname"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/loan_date"
+            android:text="@string/date"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/loan_percent"
-        android:text="@string/percent2"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/loan_firstname"
+            android:text="@string/firstname_title"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/loan_period"
-        android:text="@string/period"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/loan_lastname"
+            android:text="@string/lastname"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/loan_phone_number"
-        android:text="@string/phone_number"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/loan_percent"
+            android:text="@string/percent2"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/loan_state"
-        android:text="@string/state"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/loan_period"
+            android:text="@string/period"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/loan_phone_number"
+            android:text="@string/phone_number"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/loan_state"
+            android:text="@string/state"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

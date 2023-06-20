@@ -1,5 +1,6 @@
 package com.example.chernykhhomework.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,8 @@ import com.example.chernykhhomework.domain.repository.AuthRepository
 import com.example.chernykhhomework.presentation.uistate.RegisterUIState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class RegistrationFragmentViewModel @Inject constructor(
@@ -27,8 +30,21 @@ class RegistrationFragmentViewModel @Inject constructor(
             try {
                 val user = repository.registration(auth)
                 _uiState.postValue(RegisterUIState.Success(user, true))
+            } catch (e: UnknownHostException) {
+                _uiState.postValue(RegisterUIState.Error("No internet connection"))
+            } catch (e: HttpException) {
+                when (e.code()) {
+                    400 -> {
+                        _uiState.postValue(RegisterUIState.Error("This login is already occupied"))
+                    }
+
+                    404 -> {
+                        _uiState.postValue(RegisterUIState.Error("Wrong login or password"))
+                    }
+                }
             } catch (e: Exception) {
-                _uiState.postValue(RegisterUIState.Error(e.message.toString()))
+                Log.d("RegistrationViewModel", "${e::class}")
+                _uiState.postValue(RegisterUIState.Error("Unknown error ${e::class}: ${e.message}"))
             }
 
         }
@@ -41,8 +57,21 @@ class RegistrationFragmentViewModel @Inject constructor(
             try {
                 val user = repository.login(auth)
                 _uiState.postValue(RegisterUIState.Success(user, false))
+            } catch (e: UnknownHostException) {
+                _uiState.postValue(RegisterUIState.Error("No internet connection"))
+            } catch (e: HttpException) {
+                when (e.code()) {
+                    400 -> {
+                        _uiState.postValue(RegisterUIState.Error("This login is already occupied"))
+                    }
+
+                    404 -> {
+                        _uiState.postValue(RegisterUIState.Error("Wrong login or password"))
+                    }
+                }
             } catch (e: Exception) {
-                _uiState.postValue(RegisterUIState.Error(e.message.toString()))
+                Log.d("RegistrationViewModel", "${e::class}")
+                _uiState.postValue(RegisterUIState.Error("Unknown error ${e::class}: ${e.message}"))
             }
 
         }
@@ -54,8 +83,21 @@ class RegistrationFragmentViewModel @Inject constructor(
             try {
                 val user = repository.autoLogin()
                 _uiState.postValue(RegisterUIState.Success(user, false))
+            } catch (e: UnknownHostException) {
+                _uiState.postValue(RegisterUIState.Error("No internet connection"))
+            } catch (e: HttpException) {
+                when (e.code()) {
+                    400 -> {
+                        _uiState.postValue(RegisterUIState.Error("This login is already occupied"))
+                    }
+
+                    404 -> {
+                        _uiState.postValue(RegisterUIState.Error("Wrong login or password"))
+                    }
+                }
             } catch (e: Exception) {
-                _uiState.postValue(RegisterUIState.Error(e.message.toString()))
+                Log.d("RegistrationViewModel", "${e::class}")
+                _uiState.postValue(RegisterUIState.Error("Unknown error ${e::class}: ${e.message}"))
             }
 
         }
