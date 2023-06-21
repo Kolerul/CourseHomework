@@ -1,6 +1,7 @@
 package com.example.chernykhhomework.ui.fragments
 
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
+import com.example.chernykhhomework.data.network.entity.Loan
 import com.example.chernykhhomework.databinding.FragmentLoanBinding
 import com.example.chernykhhomework.presentation.uistate.LoanUIState
 import com.example.chernykhhomework.presentation.viewmodel.LoanFragmentViewModel
@@ -76,38 +78,54 @@ class LoanFragment : Fragment() {
 
                 is LoanUIState.Success -> {
                     showContentLayout()
-                    notNullBinding.apply {
-                        val title = requireContext().getString(R.string.loan_number, state.loan.id)
-                        loanFragmentToolbar.title = title
-                        loanAmount.text =
-                            requireContext().getString(R.string.amount, state.loan.amount)
-                        loanDate.text = requireContext().getString(R.string.date, state.loan.date)
-                        loanFirstname.text =
-                            requireContext().getString(R.string.firstname, state.loan.firstName)
-                        loanLastname.text =
-                            requireContext().getString(R.string.lastname, state.loan.lastName)
-                        loanPercent.text =
-                            requireContext().getString(
-                                R.string.percent2,
-                                state.loan.percent.toString()
-                            )
-                        loanPeriod.text =
-                            requireContext().getString(
-                                R.string.period,
-                                state.loan.period.toString()
-                            )
-                        loanPhoneNumber.text =
-                            requireContext().getString(
-                                R.string.phone_number,
-                                state.loan.phoneNumber
-                            )
-                        loanState.text =
-                            requireContext().getString(R.string.state, state.loan.state)
-                    }
+                    setLoanData(state.loan)
                 }
 
                 is LoanUIState.Error -> {
                     showErrorLayout(state.message)
+                }
+            }
+        }
+    }
+
+    private fun setLoanData(loan: Loan) {
+        notNullBinding.apply {
+            val title = requireContext().getString(R.string.loan_number, loan.id)
+            loanFragmentToolbar.title = title
+            loanAmount.text =
+                requireContext().getString(R.string.amount, loan.amount)
+            loanDate.text = requireContext().getString(R.string.date, loan.date)
+            loanFirstname.text =
+                requireContext().getString(R.string.firstname, loan.firstName)
+            loanLastname.text =
+                requireContext().getString(R.string.lastname, loan.lastName)
+            loanPercent.text =
+                requireContext().getString(
+                    R.string.percent2,
+                    loan.percent.toString()
+                )
+            loanPeriod.text =
+                requireContext().getString(
+                    R.string.period,
+                    loan.period.toString()
+                )
+            loanPhoneNumber.text =
+                requireContext().getString(
+                    R.string.phone_number,
+                    loan.phoneNumber
+                )
+            loanState.text =
+                requireContext().getString(R.string.state, loan.state)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                when (loan.state) {
+                    "APPROVED" ->
+                        loanState.setTextColor(notNullBinding.root.context.getColor(R.color.green))
+
+                    "REGISTERED" ->
+                        loanState.setTextColor(notNullBinding.root.context.getColor(R.color.light_orange))
+
+                    "REJECTED" ->
+                        loanState.setTextColor(notNullBinding.root.context.getColor(R.color.red))
                 }
             }
         }
