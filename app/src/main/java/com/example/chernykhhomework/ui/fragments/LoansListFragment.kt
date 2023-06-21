@@ -1,5 +1,6 @@
 package com.example.chernykhhomework.ui.fragments
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +9,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.chernykhhomework.App
+import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentLoansListBinding
 import com.example.chernykhhomework.presentation.LoansAdapter
 import com.example.chernykhhomework.presentation.uistate.LoansListUIState
 import com.example.chernykhhomework.presentation.viewmodel.LoansListFragmentViewModel
+import com.example.chernykhhomework.ui.fragments.dialogfragment.NewLoanHelpDialogFragment
 
 class LoansListFragment : Fragment() {
 
@@ -22,7 +24,7 @@ class LoansListFragment : Fragment() {
         get() = binding!!
 
     private val viewModel: LoansListFragmentViewModel by viewModels {
-        (activity?.application as App).appComponent.viewModelsFactory()
+        (activity?.application as LoanApplication).appComponent.viewModelsFactory()
     }
 
     override fun onCreateView(
@@ -42,8 +44,10 @@ class LoansListFragment : Fragment() {
             findNavController().navigate(R.id.action_loansListFragment_to_loanFragment, bundle)
         }
         notNullBinding.loanRecyclerView.adapter = adapter
+
         setUIStateObserver(adapter)
         setOnMenuItemListener()
+        setHelpDialogListener()
     }
 
     private fun setOnMenuItemListener() {
@@ -56,6 +60,11 @@ class LoansListFragment : Fragment() {
 
                 R.id.add_button -> {
                     findNavController().navigate(R.id.action_loansListFragment_to_newLoanFragment)
+                    true
+                }
+
+                R.id.help_button -> {
+                    showHelpDialog(0)
                     true
                 }
 
@@ -118,9 +127,50 @@ class LoansListFragment : Fragment() {
         }
     }
 
+    private fun showHelpDialog(page: Int) {
+        val imageArray = arrayOf(
+            R.drawable.ic_list,
+            R.drawable.ic_update,
+            R.drawable.ic_add,
+            R.drawable.ic_account_circle
+        )
+
+        val descriptionArray = arrayOf(
+            R.string.loans_list_help,
+            R.string.loans_list_help_update,
+            R.string.add_new_loan_help,
+            R.string.account_icon_help
+        )
+
+        val helpDialog = NewLoanHelpDialogFragment()
+        helpDialog.arguments = bundleOf(
+            NewLoanHelpDialogFragment.PAGE_INDEX to page,
+            NewLoanHelpDialogFragment.IMAGE_ID to imageArray[page],
+            NewLoanHelpDialogFragment.DESCRIPTION_ID to descriptionArray[page],
+            NewLoanHelpDialogFragment.MAX_PAGES to imageArray.size
+        )
+        helpDialog.show(requireActivity().supportFragmentManager, NewLoanHelpDialogFragment.TAG)
+    }
+
+    private fun setHelpDialogListener() {
+        requireActivity()
+            .supportFragmentManager
+            .setFragmentResultListener(
+                NewLoanHelpDialogFragment.REQUEST_KEY,
+                viewLifecycleOwner
+            ) { _, result ->
+                val which = result.getInt(NewLoanHelpDialogFragment.RESPONSE_KEY)
+                val page = result.getInt(NewLoanHelpDialogFragment.PAGE_INDEX)
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> showHelpDialog(page + 1)
+                    DialogInterface.BUTTON_NEGATIVE -> showHelpDialog(page - 1)
+                }
+            }
+    }
+
     override fun onDestroyView() {
-        super.onDestroyView()
         binding = null
+        super.onDestroyView()
     }
 
     companion object {

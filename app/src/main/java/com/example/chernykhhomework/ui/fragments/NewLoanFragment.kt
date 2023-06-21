@@ -1,6 +1,7 @@
 package com.example.chernykhhomework.ui.fragments
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +12,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.chernykhhomework.App
+import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.data.network.entity.LoanConditions
 import com.example.chernykhhomework.data.network.entity.LoanRequest
 import com.example.chernykhhomework.databinding.FragmentNewLoanBinding
 import com.example.chernykhhomework.presentation.uistate.NewLoanUIState
 import com.example.chernykhhomework.presentation.viewmodel.NewLoanFragmentViewModel
+import com.example.chernykhhomework.ui.fragments.dialogfragment.NewLoanHelpDialogFragment
 
 class NewLoanFragment : Fragment() {
 
@@ -26,7 +28,7 @@ class NewLoanFragment : Fragment() {
         get() = binding!!
 
     private val viewModel: NewLoanFragmentViewModel by viewModels {
-        (activity?.application as App).appComponent.viewModelsFactory()
+        (activity?.application as LoanApplication).appComponent.viewModelsFactory()
     }
 
     private var loanConditions: LoanConditions? = null
@@ -46,6 +48,7 @@ class NewLoanFragment : Fragment() {
         setUIStateObserver()
         setOnClickListeners()
         setOnItemMenuClickListeners()
+        setHelpDialogListener()
     }
 
     private fun setOnItemMenuClickListeners() {
@@ -59,13 +62,11 @@ class NewLoanFragment : Fragment() {
 
                 R.id.help_button -> {
                     hideSoftKeyboard()
-                    //Какая то помощь
+                    showHelpDialog(0)
                     true
                 }
 
-                else -> {
-                    false
-                }
+                else -> false
             }
         }
 
@@ -83,6 +84,10 @@ class NewLoanFragment : Fragment() {
                     viewModel.conditionsRequest()
                     notNullBinding.emptyFieldsWarningTextView.isVisible = false
                     showContentLayout()
+                    val firstEntry = arguments?.getBoolean(FIRST_ENTRY_KEY) ?: false
+                    if (firstEntry) {
+                        showHelpDialog(0)
+                    }
                 }
 
                 is NewLoanUIState.Loading -> {
@@ -92,16 +97,7 @@ class NewLoanFragment : Fragment() {
                 is NewLoanUIState.Success -> {
                     showContentLayout()
                     if (state.conditions != null) {
-                        notNullBinding.apply {
-                            loanConditions = state.conditions
-                            amountTitleTextView.text =
-                                requireContext().getString(
-                                    R.string.amount_title,
-                                    state.conditions.maxAmount
-                                )
-                            periodTextView.text = state.conditions.period.toString()
-                            percentTextView.text = "${state.conditions.percent}%"
-                        }
+                        showConditions(state.conditions)
                     } else {
                         showRequestResultLayout()
                     }
@@ -147,6 +143,65 @@ class NewLoanFragment : Fragment() {
         }
     }
 
+    private fun showHelpDialog(page: Int) {
+        val imageArray = arrayOf(
+            R.drawable.ic_loan,
+            R.drawable.ic_update,
+            R.drawable.ic_list,
+            R.drawable.ic_account_circle
+        )
+
+        val descriptionArray = arrayOf(
+            R.string.new_loan_help,
+            R.string.new_loan_help_update,
+            R.string.new_loan_help_to_list,
+            R.string.account_icon_help
+        )
+
+        val helpDialog = NewLoanHelpDialogFragment()
+        helpDialog.arguments = bundleOf(
+            NewLoanHelpDialogFragment.PAGE_INDEX to page,
+            NewLoanHelpDialogFragment.IMAGE_ID to imageArray[page],
+            NewLoanHelpDialogFragment.DESCRIPTION_ID to descriptionArray[page],
+            NewLoanHelpDialogFragment.MAX_PAGES to imageArray.size
+        )
+        helpDialog.show(requireActivity().supportFragmentManager, NewLoanHelpDialogFragment.TAG)
+    }
+
+    private fun setHelpDialogListener() {
+        requireActivity()
+            .supportFragmentManager
+            .setFragmentResultListener(
+                NewLoanHelpDialogFragment.REQUEST_KEY,
+                viewLifecycleOwner
+            ) { _, result ->
+                val which = result.getInt(NewLoanHelpDialogFragment.RESPONSE_KEY)
+                val page = result.getInt(NewLoanHelpDialogFragment.PAGE_INDEX)
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> showHelpDialog(page + 1)
+                    DialogInterface.BUTTON_NEGATIVE -> showHelpDialog(page - 1)
+                }
+            }
+    }
+
+    private fun showConditions(conditions: LoanConditions) {
+        notNullBinding.apply {
+            loanConditions = conditions
+            amountTitleTextView.text = requireContext().getString(
+                R.string.amount_title, conditions.maxAmount
+            )
+            amountCondition.text = requireContext().getString(
+                R.string.max_amount, conditions.maxAmount
+            )
+            percentCondition.text = requireContext().getString(
+                R.string.percent2, conditions.percent.toString()
+            )
+            periodCondition.text = requireContext().getString(
+                R.string.period, conditions.period.toString()
+            )
+        }
+    }
+
     private fun hideSoftKeyboard() {
         val imm =
             context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -188,7 +243,11 @@ class NewLoanFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         binding = null
+        super.onDestroyView()
+    }
+
+    companion object {
+        const val FIRST_ENTRY_KEY = "first entry"
     }
 }

@@ -14,7 +14,7 @@
     <string name="period_title">Period:</string>
     <string name="phone_number_title">Phone number:</string>
     <string name="empty_fields_warning">All fields must be filled in</string>
-    <string name="arrange">Arrange</string>
+    <string name="submit">Submit</string>
     <string name="amount">Amount: %d</string>
     <string name="date">Date: %s</string>
     <string name="state">State: %s</string>
@@ -36,4 +36,18 @@
     <string name="login_or_password_error">Wrong login or password</string>
     <string name="tap_screen_to_continue">Tap screen to continue</string>
     <string name="to_list">To list</string>
+    <string name="conditions">Conditions</string>
+    <string name="max_amount">Max amount: %d</string>
+    <string name="close">Close</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="page_counter">%d/%d</string>
+    <string name="new_loan_help">You are on the screen that allows you to apply for a new loan. The available conditions for its registration are indicated at the bottom of the screen, where you can see the allowed maximum loan size, the available annual interest and the repayment period. If you agree with them, you can fill in the remaining fields of the application, such as: amount (do not forget about the restriction), firstname, lastname and phone number. After filling in all the fields, you can submit a request by clicking the submit button at the bottom of the screen.</string>
+    <string name="new_loan_help_update">If you are not satisfied with the current conditions, you can click this refresh button at the top of the screen. This button restarts the screen, which will help not only to get new loan terms, but also to send a repeat request to the server if, for example, you did not have Internet access on your device when you first contacted it.</string>
+    <string name="new_loan_help_to_list">The To list button at the bottom of the screen will redirect you to a screen with a list of loans</string>
+    <string name="account_icon_help">This button allows you to log out of your account and re-log in if you want to use another account in the application.</string>
+    <string name="loans_list_help">Now you are on the screen with a list of all loans that have been issued to this account. For more information about a specific loan, click on it in the list.</string>
+    <string name="loans_list_help_update">When you click on this icon, you will update the list</string>
+    <string name="add_new_loan_help">Clicking on this icon will take you to another screen to apply for a new loan.</string>
+    <string name="loan_help">On this screen you can see detailed information about the loan you have chosen, as well as information about where you can pick up the approved loan or what to do if your application is not approved.</string>
 </resources>

@@ -31,6 +31,9 @@
             app:destination="@id/loansListFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="first_entry"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/loansListFragment"

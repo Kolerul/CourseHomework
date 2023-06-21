@@ -103,47 +103,6 @@
             app:layout_constraintTop_toBottomOf="@id/first_name_text_view" />
 
         <TextView
-            android:id="@+id/percent_title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/percent_title"
-            app:layout_constraintBottom_toBottomOf="@id/percent_text_view"
-            app:layout_constraintStart_toStartOf="@id/start_guideline"
-            app:layout_constraintTop_toTopOf="@+id/percent_text_view" />
-
-        <TextView
-            android:id="@+id/percent_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
-            android:text="Some text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/percent_title_text_view"
-            app:layout_constraintTop_toBottomOf="@id/last_name_text_view" />
-
-        <TextView
-            android:id="@+id/period_title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/period_title"
-            app:layout_constraintStart_toStartOf="@id/start_guideline"
-            app:layout_constraintTop_toTopOf="@+id/period_text_view" />
-
-        <TextView
-            android:id="@+id/period_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
-            android:text="Some text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/period_title_text_view"
-            app:layout_constraintTop_toBottomOf="@id/percent_text_view" />
-
-        <TextView
             android:id="@+id/phone_number_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -164,8 +123,41 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/phone_number_title_text_view"
-            app:layout_constraintTop_toBottomOf="@id/period_text_view"
+            app:layout_constraintTop_toBottomOf="@id/last_name_text_view"
             tools:ignore="TextFields" />
+
+        <TextView
+            android:id="@+id/conditions_title"
+            android:text="@string/conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phone_number_text_view"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/amount_condition"
+            android:text="@string/max_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@id/conditions_title" />
+
+        <TextView
+            android:id="@+id/percent_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/percent2"
+            app:layout_constraintTop_toBottomOf="@id/amount_condition"
+            app:layout_constraintStart_toStartOf="@id/start_guideline" />
+
+        <TextView
+            android:id="@+id/period_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/period"
+            app:layout_constraintStart_toStartOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/percent_condition" />
 
         <TextView
             android:id="@+id/empty_fields_warning_text_view"
@@ -176,7 +168,7 @@
             android:layout_marginTop="6dp"
             android:layout_gravity="center"
             android:visibility="invisible"
-            app:layout_constraintTop_toBottomOf="@id/phone_number_text_view"
+            app:layout_constraintTop_toBottomOf="@id/period_condition"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -188,7 +180,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="@string/arrange"
+            android:text="@string/submit"
             app:layout_constraintTop_toBottomOf="@id/empty_fields_warning_text_view"
             app:layout_constraintEnd_toEndOf="parent" />
 

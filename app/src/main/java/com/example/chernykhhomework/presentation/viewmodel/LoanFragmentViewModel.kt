@@ -1,5 +1,6 @@
 package com.example.chernykhhomework.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,8 @@ import com.example.chernykhhomework.domain.repository.LoanRepository
 import com.example.chernykhhomework.presentation.uistate.LoanUIState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import java.lang.Exception
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class LoanFragmentViewModel @Inject constructor(
@@ -25,8 +28,15 @@ class LoanFragmentViewModel @Inject constructor(
             try {
                 val loan = repository.getLoanById(id)
                 _uiState.postValue(LoanUIState.Success(loan))
+            } catch (e: NoSuchElementException) {
+                _uiState.postValue(
+                    LoanUIState.Error("Authorization error, please re-login to your account")
+                )
+            } catch (e: UnknownHostException) {
+                _uiState.postValue(LoanUIState.Error("No internet connection"))
             } catch (e: Exception) {
-                _uiState.postValue(LoanUIState.Error(e.message.toString()))
+                _uiState.postValue(LoanUIState.Error("Unknown error ${e::class}: ${e.message}"))
+                Log.d("NewLoanViewModel", "${e::class} ${e.message.toString()}")
             }
         }
     }

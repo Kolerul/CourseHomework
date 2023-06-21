@@ -34,7 +34,6 @@
         <TextView
             android:layout_marginTop="6dp"
             android:textColor="@color/red"
-            android:text="@string/successful_new_loan_request"
             android:id="@+id/error_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

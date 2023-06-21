@@ -8,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.animation.doOnEnd
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.chernykhhomework.App
+import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentRegistrationBinding
 import com.example.chernykhhomework.presentation.uistate.RegisterUIState
@@ -26,7 +27,7 @@ class RegistrationFragment : Fragment() {
         get() = binding!!
 
     private val viewModel: RegistrationFragmentViewModel by viewModels {
-        (activity?.application as App).appComponent.viewModelsFactory()
+        (activity?.application as LoanApplication).appComponent.viewModelsFactory()
     }
 
     override fun onCreateView(
@@ -91,9 +92,13 @@ class RegistrationFragment : Fragment() {
                     showContentLinearLayout()
                     if (state.user != null) {
                         if (state.firstEntry) {
+                            val bundle = bundleOf(NewLoanFragment.FIRST_ENTRY_KEY to true)
                             showWelcomeAnimationAndPerformAction(state.user.name) {
                                 findNavController()
-                                    .navigate(R.id.action_registrationFragment_to_newLoanFragment)
+                                    .navigate(
+                                        R.id.action_registrationFragment_to_newLoanFragment,
+                                        bundle
+                                    )
                             }
                         } else {
                             showWelcomeAnimationAndPerformAction(state.user.name) {
@@ -172,7 +177,7 @@ class RegistrationFragment : Fragment() {
 
 
     override fun onDestroyView() {
-        super.onDestroyView()
         binding = null
+        super.onDestroyView()
     }
 }
