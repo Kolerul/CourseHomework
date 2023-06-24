@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.lang.Exception
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -35,6 +36,8 @@ class NewLoanFragmentViewModel @Inject constructor(
                 _uiState.postValue(
                     NewLoanUIState.Error("Authorization error, please re-login to your account")
                 )
+            } catch (e: SocketTimeoutException) {
+                _uiState.postValue(NewLoanUIState.Error("Connection time expired"))
             } catch (e: UnknownHostException) {
                 _uiState.postValue(NewLoanUIState.Error("No internet connection"))
             } catch (e: Exception) {
@@ -58,6 +61,8 @@ class NewLoanFragmentViewModel @Inject constructor(
                 _uiState.postValue(
                     NewLoanUIState.Error("Authorization error, please re-login to your account")
                 )
+            } catch (e: SocketTimeoutException) {
+                _uiState.postValue(NewLoanUIState.Error("Connection time expired"))
             } catch (e: UnknownHostException) {
                 _uiState.postValue(NewLoanUIState.Error("No internet connection"))
             } catch (e: Exception) {

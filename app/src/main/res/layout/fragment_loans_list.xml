@@ -19,9 +19,8 @@
 
     <LinearLayout
         android:id="@+id/error_layout"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center">
 
@@ -40,15 +39,15 @@
     </LinearLayout>
 
     <ProgressBar
-        android:layout_weight="1"
         android:id="@+id/loading_progress_bar"
         android:layout_width="wrap_content"
         android:indeterminateDrawable="@drawable/spinner_ring"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/loan_recycler_view"
         android:layout_width="match_parent"
+        android:background="@color/very_light_grey"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

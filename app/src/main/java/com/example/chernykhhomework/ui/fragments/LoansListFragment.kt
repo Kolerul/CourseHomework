@@ -84,45 +84,48 @@ class LoansListFragment : Fragment() {
             when (state) {
                 is LoansListUIState.Initializing -> {
                     viewModel.getLoansList()
-                    showRecyclerView()
+                    setNormalScreenState()
                 }
 
                 is LoansListUIState.Loading -> {
-                    showProgressBar()
+                    setLoadingScreenState()
                 }
 
                 is LoansListUIState.Success -> {
                     adapter.submitList(state.loansList)
-                    showRecyclerView()
+                    setNormalScreenState()
                 }
 
                 is LoansListUIState.Error ->
-                    showErrorLayout(state.message)
+                    setErrorScreenState(state.message)
             }
         }
     }
 
-    private fun showRecyclerView() {
+    private fun setNormalScreenState() {
         notNullBinding.apply {
             loanRecyclerView.visibility = View.VISIBLE
             loadingProgressBar.visibility = View.GONE
             errorLayout.visibility = View.GONE
+            loanListFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = true
         }
     }
 
-    private fun showProgressBar() {
+    private fun setLoadingScreenState() {
         notNullBinding.apply {
             loanRecyclerView.visibility = View.GONE
             loadingProgressBar.visibility = View.VISIBLE
             errorLayout.visibility = View.GONE
+            loanListFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = false
         }
     }
 
-    private fun showErrorLayout(message: String) {
+    private fun setErrorScreenState(message: String) {
         notNullBinding.apply {
             loanRecyclerView.visibility = View.GONE
             loadingProgressBar.visibility = View.GONE
             errorLayout.visibility = View.VISIBLE
+            loanListFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = true
             errorText.text = message
         }
     }

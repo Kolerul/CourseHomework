@@ -10,6 +10,7 @@ import com.example.chernykhhomework.presentation.uistate.LoanUIState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -32,6 +33,8 @@ class LoanFragmentViewModel @Inject constructor(
                 _uiState.postValue(
                     LoanUIState.Error("Authorization error, please re-login to your account")
                 )
+            } catch (e: SocketTimeoutException) {
+                _uiState.postValue(LoanUIState.Error("Connection time expired"))
             } catch (e: UnknownHostException) {
                 _uiState.postValue(LoanUIState.Error("No internet connection"))
             } catch (e: Exception) {

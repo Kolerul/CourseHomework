@@ -11,6 +11,7 @@ import com.example.chernykhhomework.presentation.uistate.RegisterUIState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -30,6 +31,8 @@ class RegistrationFragmentViewModel @Inject constructor(
             try {
                 val user = repository.registration(auth)
                 _uiState.postValue(RegisterUIState.Success(user, true))
+            } catch (e: SocketTimeoutException) {
+                _uiState.postValue(RegisterUIState.Error("Connection time expired"))
             } catch (e: UnknownHostException) {
                 _uiState.postValue(RegisterUIState.Error("No internet connection"))
             } catch (e: HttpException) {
@@ -57,6 +60,8 @@ class RegistrationFragmentViewModel @Inject constructor(
             try {
                 val user = repository.login(auth)
                 _uiState.postValue(RegisterUIState.Success(user, false))
+            } catch (e: SocketTimeoutException) {
+                _uiState.postValue(RegisterUIState.Error("Connection time expired"))
             } catch (e: UnknownHostException) {
                 _uiState.postValue(RegisterUIState.Error("No internet connection"))
             } catch (e: HttpException) {
@@ -83,6 +88,8 @@ class RegistrationFragmentViewModel @Inject constructor(
             try {
                 val user = repository.autoLogin()
                 _uiState.postValue(RegisterUIState.Success(user, false))
+            } catch (e: SocketTimeoutException) {
+                _uiState.postValue(RegisterUIState.Error("Connection time expired"))
             } catch (e: UnknownHostException) {
                 _uiState.postValue(RegisterUIState.Error("No internet connection"))
             } catch (e: HttpException) {

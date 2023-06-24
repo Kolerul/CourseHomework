@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.data.network.entity.Loan
+import com.example.chernykhhomework.data.network.entity.LoanState
 import com.example.chernykhhomework.databinding.LoanItemBinding
 
 
@@ -22,9 +23,14 @@ class LoanViewHolder(private val binding: LoanItemBinding) : RecyclerView.ViewHo
             state.text = binding.root.context.getString(R.string.state, loan.state)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 when (loan.state) {
-                    "APPROVED" -> state.setTextColor(binding.root.context.getColor(R.color.green))
-                    "REGISTERED" -> state.setTextColor(binding.root.context.getColor(R.color.light_orange))
-                    "REJECTED" -> state.setTextColor(binding.root.context.getColor(R.color.red))
+                    LoanState.APPROVED ->
+                        state.setTextColor(binding.root.context.getColor(R.color.green))
+
+                    LoanState.REGISTERED ->
+                        state.setTextColor(binding.root.context.getColor(R.color.light_orange))
+
+                    LoanState.REJECTED ->
+                        state.setTextColor(binding.root.context.getColor(R.color.red))
                 }
             }
 

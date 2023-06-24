@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.data.network.entity.Loan
+import com.example.chernykhhomework.data.network.entity.LoanState
 import com.example.chernykhhomework.databinding.FragmentLoanBinding
 import com.example.chernykhhomework.presentation.uistate.LoanUIState
 import com.example.chernykhhomework.presentation.viewmodel.LoanFragmentViewModel
@@ -94,7 +95,10 @@ class LoanFragment : Fragment() {
             loanFragmentToolbar.title = title
             loanAmount.text =
                 requireContext().getString(R.string.amount, loan.amount)
-            loanDate.text = requireContext().getString(R.string.date, loan.date)
+            val parts = loan.date.split(".")
+            val dateAndTime = parts[0].split("T")
+            loanDate.text =
+                requireContext().getString(R.string.date, "${dateAndTime[0]} ${dateAndTime[1]}")
             loanFirstname.text =
                 requireContext().getString(R.string.firstname, loan.firstName)
             loanLastname.text =
@@ -118,14 +122,20 @@ class LoanFragment : Fragment() {
                 requireContext().getString(R.string.state, loan.state)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 when (loan.state) {
-                    "APPROVED" ->
+                    LoanState.APPROVED -> {
                         loanState.setTextColor(notNullBinding.root.context.getColor(R.color.green))
+                        loanInfoTextView.text = getString(R.string.approved_loan_info)
+                    }
 
-                    "REGISTERED" ->
+                    LoanState.REGISTERED -> {
                         loanState.setTextColor(notNullBinding.root.context.getColor(R.color.light_orange))
+                        loanInfoTextView.text = getString(R.string.registered_loan_info)
+                    }
 
-                    "REJECTED" ->
+                    LoanState.REJECTED -> {
                         loanState.setTextColor(notNullBinding.root.context.getColor(R.color.red))
+                        loanInfoTextView.text = getString(R.string.rejected_loan_info)
+                    }
                 }
             }
         }

@@ -83,7 +83,7 @@ class NewLoanFragment : Fragment() {
                 is NewLoanUIState.Initializing -> {
                     viewModel.conditionsRequest()
                     notNullBinding.emptyFieldsWarningTextView.isVisible = false
-                    showContentLayout()
+                    setNormalScreenState()
                     val firstEntry = arguments?.getBoolean(FIRST_ENTRY_KEY) ?: false
                     if (firstEntry) {
                         showHelpDialog(0)
@@ -91,11 +91,11 @@ class NewLoanFragment : Fragment() {
                 }
 
                 is NewLoanUIState.Loading -> {
-                    showLoadingProgressBar()
+                    setLoadingScreenState()
                 }
 
                 is NewLoanUIState.Success -> {
-                    showContentLayout()
+                    setNormalScreenState()
                     if (state.conditions != null) {
                         showConditions(state.conditions)
                     } else {
@@ -104,7 +104,7 @@ class NewLoanFragment : Fragment() {
                 }
 
                 is NewLoanUIState.Error -> {
-                    showContentLayout()
+                    setNormalScreenState()
                     notNullBinding.emptyFieldsWarningTextView.text = state.message
                     notNullBinding.emptyFieldsWarningTextView.isVisible = true
                 }
@@ -113,7 +113,7 @@ class NewLoanFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        notNullBinding.arrangeButton.setOnClickListener {
+        notNullBinding.submitButton.setOnClickListener {
             if (fieldsNotBlank()) {
                 notNullBinding.apply {
                     val loan = LoanRequest(
@@ -208,19 +208,21 @@ class NewLoanFragment : Fragment() {
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
-    private fun showContentLayout() {
+    private fun setNormalScreenState() {
         notNullBinding.apply {
             contentLayout.visibility = View.VISIBLE
             requestResultLayout.visibility = View.GONE
             loadingProgressBar.visibility = View.GONE
+            newLoanFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = true
         }
     }
 
-    private fun showLoadingProgressBar() {
+    private fun setLoadingScreenState() {
         notNullBinding.apply {
             contentLayout.visibility = View.GONE
             requestResultLayout.visibility = View.GONE
             loadingProgressBar.visibility = View.VISIBLE
+            newLoanFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = false
         }
     }
 
@@ -232,6 +234,7 @@ class NewLoanFragment : Fragment() {
             requestResultText.text =
                 requireContext().getString(R.string.successful_new_loan_request)
             loadingProgressBar.visibility = View.GONE
+            newLoanFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = false
         }
     }
 

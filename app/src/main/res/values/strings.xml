@@ -50,4 +50,12 @@
     <string name="loans_list_help_update">When you click on this icon, you will update the list</string>
     <string name="add_new_loan_help">Clicking on this icon will take you to another screen to apply for a new loan.</string>
     <string name="loan_help">On this screen you can see detailed information about the loan you have chosen, as well as information about where you can pick up the approved loan or what to do if your application is not approved.</string>
+    <string name="contacts">Contacts</string>
+    <string name="not_real_bank_email">notrealbank@email.com</string>
+    <string name="info">Info</string>
+    <string name="approved_loan_info">This loan was approved. You can get it to your bank card through the website or get it in person at the nearest bank branch.</string>
+    <string name="registered_loan_info">The application for this loan has been registered, but it has not yet been reviewed. Please wait for the application to be approved or contact us using one of the contacts.</string>
+    <string name="rejected_loan_info">Unfortunately, for one reason or another, this application was not approved. You can find out the details by phone or using any other way to contact us.</string>
+    <string name="funny_phone_number">8-800-555-35-35</string>
+    <string name="not_real_bank_site">www.notRealBank.com</string>
 </resources>
