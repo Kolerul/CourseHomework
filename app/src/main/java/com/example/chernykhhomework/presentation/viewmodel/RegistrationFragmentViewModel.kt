@@ -1,6 +1,5 @@
 package com.example.chernykhhomework.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,23 +30,8 @@ class RegistrationFragmentViewModel @Inject constructor(
             try {
                 val user = repository.registration(auth)
                 _uiState.postValue(RegisterUIState.Success(user, true))
-            } catch (e: SocketTimeoutException) {
-                _uiState.postValue(RegisterUIState.Error("Connection time expired"))
-            } catch (e: UnknownHostException) {
-                _uiState.postValue(RegisterUIState.Error("No internet connection"))
-            } catch (e: HttpException) {
-                when (e.code()) {
-                    400 -> {
-                        _uiState.postValue(RegisterUIState.Error("This login is already occupied"))
-                    }
-
-                    404 -> {
-                        _uiState.postValue(RegisterUIState.Error("Wrong login or password"))
-                    }
-                }
             } catch (e: Exception) {
-                Log.d("RegistrationViewModel", "${e::class}")
-                _uiState.postValue(RegisterUIState.Error("Unknown error ${e::class}: ${e.message}"))
+                handleException(e)
             }
 
         }
@@ -60,23 +44,8 @@ class RegistrationFragmentViewModel @Inject constructor(
             try {
                 val user = repository.login(auth)
                 _uiState.postValue(RegisterUIState.Success(user, false))
-            } catch (e: SocketTimeoutException) {
-                _uiState.postValue(RegisterUIState.Error("Connection time expired"))
-            } catch (e: UnknownHostException) {
-                _uiState.postValue(RegisterUIState.Error("No internet connection"))
-            } catch (e: HttpException) {
-                when (e.code()) {
-                    400 -> {
-                        _uiState.postValue(RegisterUIState.Error("This login is already occupied"))
-                    }
-
-                    404 -> {
-                        _uiState.postValue(RegisterUIState.Error("Wrong login or password"))
-                    }
-                }
             } catch (e: Exception) {
-                Log.d("RegistrationViewModel", "${e::class}")
-                _uiState.postValue(RegisterUIState.Error("Unknown error ${e::class}: ${e.message}"))
+                handleException(e)
             }
 
         }
@@ -88,25 +57,26 @@ class RegistrationFragmentViewModel @Inject constructor(
             try {
                 val user = repository.autoLogin()
                 _uiState.postValue(RegisterUIState.Success(user, false))
-            } catch (e: SocketTimeoutException) {
-                _uiState.postValue(RegisterUIState.Error("Connection time expired"))
-            } catch (e: UnknownHostException) {
-                _uiState.postValue(RegisterUIState.Error("No internet connection"))
-            } catch (e: HttpException) {
-                when (e.code()) {
-                    400 -> {
-                        _uiState.postValue(RegisterUIState.Error("This login is already occupied"))
-                    }
-
-                    404 -> {
-                        _uiState.postValue(RegisterUIState.Error("Wrong login or password"))
-                    }
-                }
             } catch (e: Exception) {
-                Log.d("RegistrationViewModel", "${e::class}")
-                _uiState.postValue(RegisterUIState.Error("Unknown error ${e::class}: ${e.message}"))
+                handleException(e)
+            }
+        }
+    }
+
+    private fun handleException(exception: Exception) {
+        when (exception) {
+            is SocketTimeoutException -> _uiState.postValue(RegisterUIState.Error("Connection time expired"))
+            is UnknownHostException -> _uiState.postValue(RegisterUIState.Error("No internet connection"))
+            is HttpException -> {
+                when (exception.code()) {
+                    400 -> _uiState.postValue(RegisterUIState.Error("This login is already occupied"))
+                    404 -> _uiState.postValue(RegisterUIState.Error("Wrong login or password"))
+                }
             }
 
+            else -> _uiState.postValue(
+                RegisterUIState.Error("Unknown error ${exception::class}: ${exception.message}")
+            )
         }
     }
 

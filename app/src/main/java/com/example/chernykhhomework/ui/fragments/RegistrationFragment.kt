@@ -1,13 +1,11 @@
 package com.example.chernykhhomework.ui.fragments
 
-import android.animation.ObjectAnimator
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.core.animation.doOnEnd
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -18,6 +16,7 @@ import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentRegistrationBinding
 import com.example.chernykhhomework.presentation.uistate.RegisterUIState
 import com.example.chernykhhomework.presentation.viewmodel.RegistrationFragmentViewModel
+import com.example.chernykhhomework.ui.util.animationAppearanceFromZeroAlpha
 
 
 class RegistrationFragment : Fragment() {
@@ -160,19 +159,9 @@ class RegistrationFragment : Fragment() {
             contentLinearLayout.visibility = View.GONE
             loadingProgressBar.visibility = View.GONE
             welcomeTextView.visibility = View.VISIBLE
-            notNullBinding.welcomeTextView.text = requireContext().getString(R.string.welcome, name)
-            notNullBinding.welcomeTextView.alpha = 0f
+            welcomeTextView.text = requireContext().getString(R.string.welcome, name)
+            welcomeTextView.animationAppearanceFromZeroAlpha(2000L, endAction)
         }
-
-        val welcomeAnimation = ObjectAnimator.ofFloat(
-            notNullBinding.welcomeTextView, View.ALPHA, 1f
-        ).apply {
-            duration = 2000L
-            doOnEnd {
-                endAction.invoke()
-            }
-        }
-        welcomeAnimation.start()
     }
 
 

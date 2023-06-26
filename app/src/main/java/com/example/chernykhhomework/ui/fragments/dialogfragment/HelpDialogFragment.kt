@@ -8,8 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentHelpDialogBinding
+import javax.inject.Inject
 
-class NewLoanHelpDialogFragment : DialogFragment() {
+class HelpDialogFragment @Inject constructor() : DialogFragment() {
 
     private var binding: FragmentHelpDialogBinding? = null
     private val notNullBinding: FragmentHelpDialogBinding
@@ -44,6 +45,8 @@ class NewLoanHelpDialogFragment : DialogFragment() {
             .setView(notNullBinding.root)
             .setNeutralButton(getString(R.string.close), listener)
 
+
+
         if (pageIndex > 0)
             dialog.setNegativeButton(getString(R.string.previous), listener)
 
@@ -59,7 +62,8 @@ class NewLoanHelpDialogFragment : DialogFragment() {
     }
 
     companion object {
-        val TAG = NewLoanHelpDialogFragment::class.java.simpleName
+        //val TAG = HelpDialogFragment::class.java.simpleName
+        val TAG = this.toString()
         const val PAGE_INDEX = "page index"
         const val MAX_PAGES = "max pages"
         const val IMAGE_ID = "image id"

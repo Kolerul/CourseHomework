@@ -6,17 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    style="@style/LayoutStyle"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/new_loan_fragment_toolbar"
         app:title="New loan"
-        app:titleTextColor="@color/white"
         app:menu="@menu/new_loan_fragment_menu"
-        app:navigationIcon="@drawable/ic_account_circle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue_191"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -240,6 +238,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/hint_text_view"
             android:layout_marginTop="12dp"
             android:textColor="@color/light_grey"
             android:text="@string/tap_screen_to_continue"

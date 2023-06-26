@@ -4,6 +4,9 @@ import android.content.Context
 import com.example.chernykhhomework.presentation.viewmodel.RegistrationFragmentViewModel
 import com.example.chernykhhomework.presentation.ViewModelFactory
 import com.example.chernykhhomework.ui.MainActivity
+import com.example.chernykhhomework.ui.fragments.LoanFragment
+import com.example.chernykhhomework.ui.fragments.LoansListFragment
+import com.example.chernykhhomework.ui.fragments.NewLoanFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -24,7 +27,11 @@ interface AppComponent {
     }
 
     fun inject(activity: MainActivity)
-    fun inject(fragmentViewModel: RegistrationFragmentViewModel)
+    fun inject(fragment: LoansListFragment)
+
+    fun inject(fragment: NewLoanFragment)
+
+    fun inject(fragment: LoanFragment)
 
     fun viewModelsFactory(): ViewModelFactory
 }

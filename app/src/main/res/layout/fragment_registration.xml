@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    style="@style/LayoutStyle"
     android:orientation="vertical">
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Headline"
+        style="@style/HeadlineTextStyle"
         android:id="@+id/welcome_text_view"
         android:gravity="center"
         android:layout_width="match_parent"

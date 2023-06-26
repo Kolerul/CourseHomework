@@ -1,6 +1,7 @@
 package com.example.chernykhhomework.data.repositoryImpl
 
 import android.util.Log
+import android.util.NoSuchPropertyException
 import com.example.chernykhhomework.data.network.SessionData
 import com.example.chernykhhomework.data.network.api.LoansDataSourceApi
 import com.example.chernykhhomework.data.network.entity.Loan
@@ -28,9 +29,13 @@ class LoanRepositoryImpl @Inject constructor(
         return response
     }
 
-    override suspend fun getAllLoans(): List<Loan> {
+    override suspend fun getAllLoans(usePreferredSource: Boolean): List<Loan> {
         val token = sessionData.getToken() ?: throw NoSuchElementException("Token not available")
-        val loanList = retrofitService.getAllLoans(token)
+        val loanList = if (usePreferredSource)
+            sessionData.currentSessionLoanList
+                ?: throw NoSuchPropertyException("There no cache data")
+        else
+            retrofitService.getAllLoans(token)
         Log.d("LoanRepositoryImpl", loanList.toString())
         sessionData.currentSessionLoanList = loanList
         return loanList

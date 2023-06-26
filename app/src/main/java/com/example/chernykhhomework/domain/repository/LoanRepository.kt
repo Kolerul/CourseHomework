@@ -10,7 +10,7 @@ interface LoanRepository {
 
     suspend fun getLoanById(id: Int): Loan
 
-    suspend fun getAllLoans(): List<Loan>
+    suspend fun getAllLoans(usePreferredSource: Boolean): List<Loan>
 
     suspend fun getLoanConditions(): LoanConditions
 }

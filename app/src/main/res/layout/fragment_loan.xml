@@ -3,17 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/LayoutStyle"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/loan__fragment_toolbar"
-        app:navigationIcon="@drawable/ic_account_circle"
         app:title="@string/loan_number"
-        app:titleTextColor="@color/white"
         app:menu="@menu/loan_fragment_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/blue_191" />
+        android:layout_height="wrap_content" />
 
     <ProgressBar
         android:visibility="gone"
@@ -178,15 +176,37 @@
                 app:layout_constraintEnd_toEndOf="@id/end_guideline"
                 app:layout_constraintTop_toBottomOf="@id/loan_info_text_view" />
 
+            <ImageView
+                android:src="@drawable/ic_post"
+                style="@style/InfoIconStyle"
+                android:id="@+id/email_image"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintEnd_toStartOf="@id/contacts_email_text_view"
+                app:layout_constraintTop_toTopOf="@id/contacts_email_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/contacts_email_text_view" />
+
             <TextView
                 android:text="@string/not_real_bank_email"
                 android:layout_marginTop="6dp"
                 android:id="@+id/contacts_email_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintStart_toEndOf="@id/email_image"
                 app:layout_constraintEnd_toEndOf="@id/end_guideline"
                 app:layout_constraintTop_toBottomOf="@id/loan_contact_title_text_view" />
+
+            <ImageView
+                style="@style/InfoIconStyle"
+                android:src="@drawable/ic_phone"
+                android:id="@+id/phone_image"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintEnd_toStartOf="@id/contacts_phone_text_view"
+                app:layout_constraintTop_toTopOf="@id/contacts_phone_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/contacts_phone_text_view" />
 
             <TextView
                 android:text="@string/funny_phone_number"
@@ -194,9 +214,21 @@
                 android:id="@+id/contacts_phone_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintStart_toEndOf="@id/phone_image"
                 app:layout_constraintEnd_toEndOf="@id/end_guideline"
                 app:layout_constraintTop_toBottomOf="@id/contacts_email_text_view" />
+
+            <ImageView
+                style="@style/InfoIconStyle"
+                android:src="@drawable/ic_internet"
+                android:id="@+id/internet_image"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintEnd_toStartOf="@id/contacts_web_page_text_view"
+                app:layout_constraintTop_toTopOf="@id/contacts_web_page_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/contacts_web_page_text_view" />
+
 
             <TextView
                 android:text="@string/not_real_bank_site"
@@ -205,7 +237,7 @@
                 android:id="@+id/contacts_web_page_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/start_guideline"
+                app:layout_constraintStart_toEndOf="@id/internet_image"
                 app:layout_constraintEnd_toEndOf="@id/end_guideline"
                 app:layout_constraintTop_toBottomOf="@id/contacts_phone_text_view" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,4 +58,8 @@
     <string name="rejected_loan_info">Unfortunately, for one reason or another, this application was not approved. You can find out the details by phone or using any other way to contact us.</string>
     <string name="funny_phone_number">8-800-555-35-35</string>
     <string name="not_real_bank_site">www.notRealBank.com</string>
+    <string name="exit">Exit</string>
+    <string name="cancel">Cancel</string>
+    <string name="quit_question">Exit the app?</string>
+    <string name="use_cache">Use cache</string>
 </resources>

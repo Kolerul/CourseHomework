@@ -1,6 +1,7 @@
 package com.example.chernykhhomework.ui.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.chernykhhomework.LoanApplication
@@ -19,7 +21,9 @@ import com.example.chernykhhomework.data.network.entity.LoanRequest
 import com.example.chernykhhomework.databinding.FragmentNewLoanBinding
 import com.example.chernykhhomework.presentation.uistate.NewLoanUIState
 import com.example.chernykhhomework.presentation.viewmodel.NewLoanFragmentViewModel
-import com.example.chernykhhomework.ui.fragments.dialogfragment.NewLoanHelpDialogFragment
+import com.example.chernykhhomework.ui.fragments.dialogfragment.HelpDialogFragment
+import com.example.chernykhhomework.ui.util.animationBlinking
+import javax.inject.Inject
 
 class NewLoanFragment : Fragment() {
 
@@ -32,6 +36,14 @@ class NewLoanFragment : Fragment() {
     }
 
     private var loanConditions: LoanConditions? = null
+
+    @Inject
+    lateinit var helpDialog: HelpDialogFragment
+
+    override fun onAttach(context: Context) {
+        (requireActivity().application as LoanApplication).appComponent.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +59,38 @@ class NewLoanFragment : Fragment() {
 
         setUIStateObserver()
         setOnClickListeners()
+    }
+
+    private fun setOnClickListeners() {
+        notNullBinding.submitButton.setOnClickListener {
+            if (fieldsNotBlank()) {
+                notNullBinding.apply {
+                    val loan = LoanRequest(
+                        amountTextView.text.toString().toLong(),
+                        firstNameTextView.text.toString(),
+                        lastNameTextView.text.toString(),
+                        loanConditions?.percent ?: 0.0,
+                        loanConditions?.period ?: 0,
+                        phoneNumberTextView.text.toString()
+                    )
+                    viewModel.newLoanRequest(loan)
+                }
+            } else {
+                notNullBinding.emptyFieldsWarningTextView.isVisible = true
+            }
+            hideSoftKeyboard()
+        }
+
+        notNullBinding.requestResultLayout.setOnClickListener {
+            hideSoftKeyboard()
+            findNavController().navigate(R.id.action_newLoanFragment_to_loansListFragment)
+        }
+
+        notNullBinding.toLoanListButton.setOnClickListener {
+            hideSoftKeyboard()
+            findNavController().navigate(R.id.action_newLoanFragment_to_loansListFragment)
+        }
+
         setOnItemMenuClickListeners()
         setHelpDialogListener()
     }
@@ -112,37 +156,6 @@ class NewLoanFragment : Fragment() {
         }
     }
 
-    private fun setOnClickListeners() {
-        notNullBinding.submitButton.setOnClickListener {
-            if (fieldsNotBlank()) {
-                notNullBinding.apply {
-                    val loan = LoanRequest(
-                        amountTextView.text.toString().toLong(),
-                        firstNameTextView.text.toString(),
-                        lastNameTextView.text.toString(),
-                        loanConditions?.percent ?: 0.0,
-                        loanConditions?.period ?: 0,
-                        phoneNumberTextView.text.toString()
-                    )
-                    viewModel.newLoanRequest(loan)
-                }
-            } else {
-                notNullBinding.emptyFieldsWarningTextView.isVisible = true
-            }
-            hideSoftKeyboard()
-        }
-
-        notNullBinding.requestResultLayout.setOnClickListener {
-            hideSoftKeyboard()
-            findNavController().navigate(R.id.action_newLoanFragment_to_loansListFragment)
-        }
-
-        notNullBinding.toLoanListButton.setOnClickListener {
-            hideSoftKeyboard()
-            findNavController().navigate(R.id.action_newLoanFragment_to_loansListFragment)
-        }
-    }
-
     private fun showHelpDialog(page: Int) {
         val imageArray = arrayOf(
             R.drawable.ic_loan,
@@ -158,30 +171,31 @@ class NewLoanFragment : Fragment() {
             R.string.account_icon_help
         )
 
-        val helpDialog = NewLoanHelpDialogFragment()
+        val helpDialog = HelpDialogFragment()
         helpDialog.arguments = bundleOf(
-            NewLoanHelpDialogFragment.PAGE_INDEX to page,
-            NewLoanHelpDialogFragment.IMAGE_ID to imageArray[page],
-            NewLoanHelpDialogFragment.DESCRIPTION_ID to descriptionArray[page],
-            NewLoanHelpDialogFragment.MAX_PAGES to imageArray.size
+            HelpDialogFragment.PAGE_INDEX to page,
+            HelpDialogFragment.IMAGE_ID to imageArray[page],
+            HelpDialogFragment.DESCRIPTION_ID to descriptionArray[page],
+            HelpDialogFragment.MAX_PAGES to imageArray.size
         )
-        helpDialog.show(requireActivity().supportFragmentManager, NewLoanHelpDialogFragment.TAG)
+        helpDialog.show(requireActivity().supportFragmentManager, HelpDialogFragment.TAG)
     }
 
     private fun setHelpDialogListener() {
+
         requireActivity()
-            .supportFragmentManager
-            .setFragmentResultListener(
-                NewLoanHelpDialogFragment.REQUEST_KEY,
+            .supportFragmentManager.setFragmentResultListener(
+                HelpDialogFragment.REQUEST_KEY,
                 viewLifecycleOwner
             ) { _, result ->
-                val which = result.getInt(NewLoanHelpDialogFragment.RESPONSE_KEY)
-                val page = result.getInt(NewLoanHelpDialogFragment.PAGE_INDEX)
+                val which = result.getInt(HelpDialogFragment.RESPONSE_KEY)
+                val page = result.getInt(HelpDialogFragment.PAGE_INDEX)
                 when (which) {
                     DialogInterface.BUTTON_POSITIVE -> showHelpDialog(page + 1)
                     DialogInterface.BUTTON_NEGATIVE -> showHelpDialog(page - 1)
                 }
             }
+
     }
 
     private fun showConditions(conditions: LoanConditions) {
@@ -233,6 +247,7 @@ class NewLoanFragment : Fragment() {
             requestResultImage.setImageResource(R.drawable.ic_success)
             requestResultText.text =
                 requireContext().getString(R.string.successful_new_loan_request)
+            hintTextView.animationBlinking()
             loadingProgressBar.visibility = View.GONE
             newLoanFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = false
         }

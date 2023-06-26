@@ -1,5 +1,6 @@
 package com.example.chernykhhomework.ui.fragments
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -17,7 +18,8 @@ import com.example.chernykhhomework.data.network.entity.LoanState
 import com.example.chernykhhomework.databinding.FragmentLoanBinding
 import com.example.chernykhhomework.presentation.uistate.LoanUIState
 import com.example.chernykhhomework.presentation.viewmodel.LoanFragmentViewModel
-import com.example.chernykhhomework.ui.fragments.dialogfragment.NewLoanHelpDialogFragment
+import com.example.chernykhhomework.ui.fragments.dialogfragment.HelpDialogFragment
+import javax.inject.Inject
 
 class LoanFragment : Fragment() {
 
@@ -27,6 +29,14 @@ class LoanFragment : Fragment() {
 
     private val viewModel: LoanFragmentViewModel by viewModels {
         (activity?.application as LoanApplication).appComponent.viewModelsFactory()
+    }
+
+    @Inject
+    lateinit var helpDialog: HelpDialogFragment
+
+    override fun onAttach(context: Context) {
+        (requireActivity().application as LoanApplication).appComponent.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(
@@ -177,25 +187,25 @@ class LoanFragment : Fragment() {
             R.string.account_icon_help
         )
 
-        val helpDialog = NewLoanHelpDialogFragment()
+        val helpDialog = HelpDialogFragment()
         helpDialog.arguments = bundleOf(
-            NewLoanHelpDialogFragment.PAGE_INDEX to page,
-            NewLoanHelpDialogFragment.IMAGE_ID to imageArray[page],
-            NewLoanHelpDialogFragment.DESCRIPTION_ID to descriptionArray[page],
-            NewLoanHelpDialogFragment.MAX_PAGES to imageArray.size
+            HelpDialogFragment.PAGE_INDEX to page,
+            HelpDialogFragment.IMAGE_ID to imageArray[page],
+            HelpDialogFragment.DESCRIPTION_ID to descriptionArray[page],
+            HelpDialogFragment.MAX_PAGES to imageArray.size
         )
-        helpDialog.show(requireActivity().supportFragmentManager, NewLoanHelpDialogFragment.TAG)
+        helpDialog.show(requireActivity().supportFragmentManager, HelpDialogFragment.TAG)
     }
 
     private fun setHelpDialogListener() {
         requireActivity()
             .supportFragmentManager
             .setFragmentResultListener(
-                NewLoanHelpDialogFragment.REQUEST_KEY,
+                HelpDialogFragment.REQUEST_KEY,
                 viewLifecycleOwner
             ) { _, result ->
-                val which = result.getInt(NewLoanHelpDialogFragment.RESPONSE_KEY)
-                val page = result.getInt(NewLoanHelpDialogFragment.PAGE_INDEX)
+                val which = result.getInt(HelpDialogFragment.RESPONSE_KEY)
+                val page = result.getInt(HelpDialogFragment.PAGE_INDEX)
                 when (which) {
                     DialogInterface.BUTTON_POSITIVE -> showHelpDialog(page + 1)
                     DialogInterface.BUTTON_NEGATIVE -> showHelpDialog(page - 1)

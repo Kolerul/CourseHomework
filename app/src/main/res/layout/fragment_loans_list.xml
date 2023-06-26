@@ -4,18 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    style="@style/LayoutStyle"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/loan_list_fragment_toolbar"
-        app:navigationIcon="@drawable/ic_account_circle"
         app:title="@string/list_of_loans"
         android:layout_gravity="top"
-        app:titleTextColor="@color/white"
         app:menu="@menu/loans_list_menu_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/blue_191" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/error_layout"
@@ -31,9 +29,19 @@
             android:layout_height="200dp" />
 
         <TextView
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="6dp"
             android:textColor="@color/red"
             android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_marginTop="6dp"
+            android:id="@+id/use_cache_button"
+            android:text="@string/use_cache"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -47,7 +55,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/loan_recycler_view"
         android:layout_width="match_parent"
-        android:background="@color/very_light_grey"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
