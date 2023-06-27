@@ -10,15 +10,20 @@ import com.example.chernykhhomework.data.network.api.AuthorizationApi
 import com.example.chernykhhomework.data.network.entity.Auth
 import com.example.chernykhhomework.data.network.entity.AuthorizedUser
 import com.example.chernykhhomework.domain.repository.AuthRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AuthRepositoryImpl @Inject constructor(
     private val retrofitService: AuthorizationApi,
     private val sessionData: SessionData,
-    private val context: Context
+    private val context: Context,
+    private val dispatcher: CoroutineDispatcher
 ) : AuthRepository {
 
-    override suspend fun login(auth: Auth): Auth {
+    override suspend fun login(auth: Auth): Auth = withContext(dispatcher) {
         val response = retrofitService.login(auth)
         val token = response.string()
         Log.d("AuthRepositoryImpl", response.string())
@@ -27,24 +32,26 @@ class AuthRepositoryImpl @Inject constructor(
         sessionData.currentSessionUser = currentUser
         addToSharedPref(auth)
         Log.d("AuthRepositoryImpl", sessionData.currentSessionUser.toString())
-        return auth
+        auth
     }
 
-    override suspend fun registration(auth: Auth): Auth {
+
+    override suspend fun registration(auth: Auth): Auth = withContext(dispatcher) {
         val response = retrofitService.registration(auth)
         Log.d("AuthRepositoryImpl", response.string())
-        return login(auth)
+        login(auth)
     }
 
-    override suspend fun autoLogin(): Auth? {
+    override suspend fun autoLogin(): Auth? = withContext(dispatcher) {
         val sharedPreferences = createEncryptedSharedPref()
         val login = sharedPreferences.getString(LOGIN_KEY, "")
         val password = sharedPreferences.getString(PASSWORD_KEY, "")
         if (login == null || password == null || login.isBlank() || password.isBlank()) {
-            return null
+            null
+        } else {
+            val auth = Auth(login, password)
+            login(auth)
         }
-        val auth = Auth(login, password)
-        return login(auth)
     }
 
     private fun createEncryptedSharedPref(): SharedPreferences {

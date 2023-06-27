@@ -79,6 +79,8 @@ class RegistrationFragment : Fragment() {
                             ?: false
                     if (!appIsRunning) {
                         viewModel.autoLogIn()
+                    } else {
+                        notNullBinding.logInButton.text = getString(R.string.re_log_in)
                     }
                 }
 

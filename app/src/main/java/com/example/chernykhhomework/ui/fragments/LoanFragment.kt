@@ -1,7 +1,6 @@
 package com.example.chernykhhomework.ui.fragments
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -53,14 +52,13 @@ class LoanFragment : Fragment() {
 
         setUIStateObserver()
         setOnItemMenuClickListeners()
-        setHelpDialogListener()
     }
 
     private fun setOnItemMenuClickListeners() {
         notNullBinding.loanFragmentToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.help_button -> {
-                    showHelpDialog(0)
+                    showHelpDialog()
                     true
                 }
 
@@ -176,41 +174,21 @@ class LoanFragment : Fragment() {
         }
     }
 
-    private fun showHelpDialog(page: Int) {
-        val imageArray = arrayOf(
-            R.drawable.ic_loan,
-            R.drawable.ic_account_circle
-        )
+    private fun showHelpDialog() {
 
-        val descriptionArray = arrayOf(
-            R.string.loan_help,
-            R.string.account_icon_help
-        )
+        val imageArray = IntArray(2)
+        imageArray[0] = R.drawable.ic_loan
+        imageArray[1] = R.drawable.ic_account_circle
 
-        val helpDialog = HelpDialogFragment()
+        val descriptionArray = IntArray(2)
+        descriptionArray[0] = R.string.loan_help
+        descriptionArray[1] = R.string.account_icon_help
+
         helpDialog.arguments = bundleOf(
-            HelpDialogFragment.PAGE_INDEX to page,
-            HelpDialogFragment.IMAGE_ID to imageArray[page],
-            HelpDialogFragment.DESCRIPTION_ID to descriptionArray[page],
-            HelpDialogFragment.MAX_PAGES to imageArray.size
+            HelpDialogFragment.IMAGE_ID to imageArray,
+            HelpDialogFragment.DESCRIPTION_ID to descriptionArray,
         )
-        helpDialog.show(requireActivity().supportFragmentManager, HelpDialogFragment.TAG)
-    }
-
-    private fun setHelpDialogListener() {
-        requireActivity()
-            .supportFragmentManager
-            .setFragmentResultListener(
-                HelpDialogFragment.REQUEST_KEY,
-                viewLifecycleOwner
-            ) { _, result ->
-                val which = result.getInt(HelpDialogFragment.RESPONSE_KEY)
-                val page = result.getInt(HelpDialogFragment.PAGE_INDEX)
-                when (which) {
-                    DialogInterface.BUTTON_POSITIVE -> showHelpDialog(page + 1)
-                    DialogInterface.BUTTON_NEGATIVE -> showHelpDialog(page - 1)
-                }
-            }
+        helpDialog.show(parentFragmentManager, HelpDialogFragment.TAG)
     }
 
     override fun onDestroyView() {

@@ -21,6 +21,11 @@
         <argument
             android:name="isAppLaunching"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_registrationFragment_self"
+            app:destination="@id/registrationFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/newLoanFragment"

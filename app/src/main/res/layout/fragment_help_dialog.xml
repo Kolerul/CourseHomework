@@ -1,42 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/blue_191"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_marginTop="6dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/help_recycler_view"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent" />
 
-        <ImageView
-            android:layout_margin="6dp"
-            android:src="@drawable/ic_update"
-            android:id="@+id/help_image"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:minWidth="150dp"
-            android:layout_height="150dp" />
-
-        <TextView
-            style="@style/DialogFragmentText"
-            android:id="@+id/help_text"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            style="@style/DialogFragmentText"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="6dp"
-            android:id="@+id/help_page_counter"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-</ScrollView>
+</FrameLayout>

@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">ChernykhHomework</string>
     <string name="login">Login</string>
+    <string name="current_login">Login: %s</string>
     <string name="password">Password</string>
     <string name="registration">New</string>
     <string name="log_in">Log in</string>
+    <string name="re_log_in">Re-log in</string>
     <string name="some_warning">Some Warning</string>
     <string name="login_warning">The name field or password field should not be empty</string>
     <string name="amount_title">Amount (limit %d):</string>
@@ -56,10 +58,19 @@
     <string name="approved_loan_info">This loan was approved. You can get it to your bank card through the website or get it in person at the nearest bank branch.</string>
     <string name="registered_loan_info">The application for this loan has been registered, but it has not yet been reviewed. Please wait for the application to be approved or contact us using one of the contacts.</string>
     <string name="rejected_loan_info">Unfortunately, for one reason or another, this application was not approved. You can find out the details by phone or using any other way to contact us.</string>
-    <string name="funny_phone_number">8-800-555-35-35</string>
+    <string name="funny_phone_number">8–800–555–35–35</string>
     <string name="not_real_bank_site">www.notRealBank.com</string>
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
     <string name="quit_question">Exit the app?</string>
     <string name="use_cache">Use cache</string>
+    <string name="log_out">Log out</string>
+    <string name="connection_time_expired">Connection time expired. Please, try again</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="login_occupied">This login is already occupied</string>
+    <string name="wrong_login_or_password">Wrong login or password</string>
+    <string name="unknown_error">Unknown error %s: %s</string>
+    <string name="not_suitable_loan">The loan does not meet acceptable conditions</string>
+    <string name="authorization_error">Authorization error, please re-login to your account</string>
+    <string name="no_cache">No cached data</string>
 </resources>

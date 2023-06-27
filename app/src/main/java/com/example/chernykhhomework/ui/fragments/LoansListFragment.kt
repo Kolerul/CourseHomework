@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -15,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentLoansListBinding
-import com.example.chernykhhomework.presentation.LoansAdapter
+import com.example.chernykhhomework.presentation.adapter.LoansAdapter
 import com.example.chernykhhomework.presentation.uistate.LoansListUIState
 import com.example.chernykhhomework.presentation.viewmodel.LoansListFragmentViewModel
 import com.example.chernykhhomework.ui.fragments.dialogfragment.HelpDialogFragment
@@ -63,7 +62,6 @@ class LoansListFragment : Fragment() {
 
         setUIStateObserver(adapter)
         setOnMenuItemListener()
-        setHelpDialogListener()
         setQuitDialogListener()
         setOnBackPressedListener()
         setOnButtonClickListener()
@@ -89,7 +87,7 @@ class LoansListFragment : Fragment() {
                 }
 
                 R.id.help_button -> {
-                    showHelpDialog(0)
+                    showHelpDialog()
                     true
                 }
 
@@ -162,8 +160,7 @@ class LoansListFragment : Fragment() {
     }
 
     private fun showQuitDialog() {
-        //val quitDialog = QuitDialogFragment()
-        quitDialog.show(requireActivity().supportFragmentManager, QuitDialogFragment.TAG)
+        quitDialog.show(parentFragmentManager, QuitDialogFragment.TAG)
     }
 
     private fun setQuitDialogListener() {
@@ -180,47 +177,25 @@ class LoansListFragment : Fragment() {
 
     }
 
-    private fun showHelpDialog(page: Int) {
-        val imageArray = arrayOf(
-            R.drawable.ic_list,
-            R.drawable.ic_update,
-            R.drawable.ic_add,
-            R.drawable.ic_account_circle
-        )
+    private fun showHelpDialog() {
+        val imageArray = IntArray(4)
+        imageArray[0] = R.drawable.ic_list
+        imageArray[1] = R.drawable.ic_update
+        imageArray[2] = R.drawable.ic_add
+        imageArray[3] = R.drawable.ic_account_circle
 
-        val descriptionArray = arrayOf(
-            R.string.loans_list_help,
-            R.string.loans_list_help_update,
-            R.string.add_new_loan_help,
-            R.string.account_icon_help
-        )
-
-        val helpDialog = HelpDialogFragment()
+        val descriptionArray = IntArray(4)
+        descriptionArray[0] = R.string.loans_list_help
+        descriptionArray[1] = R.string.loans_list_help_update
+        descriptionArray[2] = R.string.add_new_loan_help
+        descriptionArray[3] = R.string.account_icon_help
 
         helpDialog.arguments = bundleOf(
-            HelpDialogFragment.PAGE_INDEX to page,
-            HelpDialogFragment.IMAGE_ID to imageArray[page],
-            HelpDialogFragment.DESCRIPTION_ID to descriptionArray[page],
-            HelpDialogFragment.MAX_PAGES to imageArray.size
+            HelpDialogFragment.IMAGE_ID to imageArray,
+            HelpDialogFragment.DESCRIPTION_ID to descriptionArray,
         )
-        helpDialog.show(requireActivity().supportFragmentManager, HelpDialogFragment.TAG)
+        helpDialog.show(parentFragmentManager, HelpDialogFragment.TAG)
 
-    }
-
-    private fun setHelpDialogListener() {
-        requireActivity()
-            .supportFragmentManager
-            .setFragmentResultListener(
-                HelpDialogFragment.REQUEST_KEY,
-                viewLifecycleOwner
-            ) { _, result ->
-                val which = result.getInt(HelpDialogFragment.RESPONSE_KEY)
-                val page = result.getInt(HelpDialogFragment.PAGE_INDEX)
-                when (which) {
-                    DialogInterface.BUTTON_POSITIVE -> showHelpDialog(page + 1)
-                    DialogInterface.BUTTON_NEGATIVE -> showHelpDialog(page - 1)
-                }
-            }
     }
 
     override fun onDestroyView() {

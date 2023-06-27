@@ -2,7 +2,6 @@ package com.example.chernykhhomework.ui.fragments
 
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.chernykhhomework.LoanApplication
@@ -92,7 +90,6 @@ class NewLoanFragment : Fragment() {
         }
 
         setOnItemMenuClickListeners()
-        setHelpDialogListener()
     }
 
     private fun setOnItemMenuClickListeners() {
@@ -106,7 +103,7 @@ class NewLoanFragment : Fragment() {
 
                 R.id.help_button -> {
                     hideSoftKeyboard()
-                    showHelpDialog(0)
+                    showHelpDialog()
                     true
                 }
 
@@ -130,7 +127,7 @@ class NewLoanFragment : Fragment() {
                     setNormalScreenState()
                     val firstEntry = arguments?.getBoolean(FIRST_ENTRY_KEY) ?: false
                     if (firstEntry) {
-                        showHelpDialog(0)
+                        showHelpDialog()
                     }
                 }
 
@@ -156,47 +153,27 @@ class NewLoanFragment : Fragment() {
         }
     }
 
-    private fun showHelpDialog(page: Int) {
-        val imageArray = arrayOf(
-            R.drawable.ic_loan,
-            R.drawable.ic_update,
-            R.drawable.ic_list,
-            R.drawable.ic_account_circle
-        )
+    private fun showHelpDialog() {
 
-        val descriptionArray = arrayOf(
-            R.string.new_loan_help,
-            R.string.new_loan_help_update,
-            R.string.new_loan_help_to_list,
-            R.string.account_icon_help
-        )
+        val imageArray = IntArray(4)
+        imageArray[0] = R.drawable.ic_loan
+        imageArray[1] = R.drawable.ic_update
+        imageArray[2] = R.drawable.ic_list
+        imageArray[3] = R.drawable.ic_account_circle
 
-        val helpDialog = HelpDialogFragment()
+        val descriptionArray = IntArray(4)
+        descriptionArray[0] = R.string.new_loan_help
+        descriptionArray[1] = R.string.new_loan_help_update
+        descriptionArray[2] = R.string.new_loan_help_to_list
+        descriptionArray[3] = R.string.account_icon_help
+
         helpDialog.arguments = bundleOf(
-            HelpDialogFragment.PAGE_INDEX to page,
-            HelpDialogFragment.IMAGE_ID to imageArray[page],
-            HelpDialogFragment.DESCRIPTION_ID to descriptionArray[page],
-            HelpDialogFragment.MAX_PAGES to imageArray.size
+            HelpDialogFragment.IMAGE_ID to imageArray,
+            HelpDialogFragment.DESCRIPTION_ID to descriptionArray,
         )
-        helpDialog.show(requireActivity().supportFragmentManager, HelpDialogFragment.TAG)
+        helpDialog.show(parentFragmentManager, HelpDialogFragment.TAG)
     }
 
-    private fun setHelpDialogListener() {
-
-        requireActivity()
-            .supportFragmentManager.setFragmentResultListener(
-                HelpDialogFragment.REQUEST_KEY,
-                viewLifecycleOwner
-            ) { _, result ->
-                val which = result.getInt(HelpDialogFragment.RESPONSE_KEY)
-                val page = result.getInt(HelpDialogFragment.PAGE_INDEX)
-                when (which) {
-                    DialogInterface.BUTTON_POSITIVE -> showHelpDialog(page + 1)
-                    DialogInterface.BUTTON_NEGATIVE -> showHelpDialog(page - 1)
-                }
-            }
-
-    }
 
     private fun showConditions(conditions: LoanConditions) {
         notNullBinding.apply {

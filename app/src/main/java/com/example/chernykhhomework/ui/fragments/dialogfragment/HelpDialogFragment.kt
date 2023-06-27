@@ -8,6 +8,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentHelpDialogBinding
+import com.example.chernykhhomework.presentation.adapter.HelpAdapter
+import com.example.chernykhhomework.presentation.entity.HelpPage
 import javax.inject.Inject
 
 class HelpDialogFragment @Inject constructor() : DialogFragment() {
@@ -19,39 +21,33 @@ class HelpDialogFragment @Inject constructor() : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentHelpDialogBinding.inflate(layoutInflater)
 
-        val pageIndex = arguments?.getInt(PAGE_INDEX) ?: 0
-        val maxPages = arguments?.getInt(MAX_PAGES) ?: 0
-        val imageId = arguments?.getInt(IMAGE_ID) ?: 0
-        val descriptionId = arguments?.getInt(DESCRIPTION_ID) ?: 0
+        val imageIdArray = arguments?.getIntArray(IMAGE_ID) ?: IntArray(0)
+        val descriptionIdArray = arguments?.getIntArray(DESCRIPTION_ID) ?: IntArray(0)
+
+        val helpPageList = buildList {
+            for (index in imageIdArray.indices) {
+                add(
+                    HelpPage(imageIdArray[index], descriptionIdArray[index])
+                )
+            }
+        }
+
+        val adapter = HelpAdapter()
+        adapter.submitList(helpPageList)
+        notNullBinding.helpRecyclerView.adapter = adapter
 
         val listener = DialogInterface.OnClickListener { _, which ->
             parentFragmentManager.setFragmentResult(
                 REQUEST_KEY, bundleOf(
-                    RESPONSE_KEY to which,
-                    PAGE_INDEX to pageIndex
+                    RESPONSE_KEY to which
                 )
             )
-            dismiss()
-        }
-
-        notNullBinding.apply {
-            helpImage.setImageResource(imageId)
-            helpText.text = getString(descriptionId)
-            helpPageCounter.text = getString(R.string.page_counter, (pageIndex + 1), maxPages)
         }
 
         val dialog = AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.help))
+            .setTitle("Help")
             .setView(notNullBinding.root)
-            .setNeutralButton(getString(R.string.close), listener)
-
-
-
-        if (pageIndex > 0)
-            dialog.setNegativeButton(getString(R.string.previous), listener)
-
-        if (pageIndex < maxPages - 1)
-            dialog.setPositiveButton(getString(R.string.next), listener)
+            .setPositiveButton(getString(R.string.close), listener)
 
         return dialog.create()
     }
@@ -62,10 +58,7 @@ class HelpDialogFragment @Inject constructor() : DialogFragment() {
     }
 
     companion object {
-        //val TAG = HelpDialogFragment::class.java.simpleName
-        val TAG = this.toString()
-        const val PAGE_INDEX = "page index"
-        const val MAX_PAGES = "max pages"
+        val TAG = HelpDialogFragment::class.java.simpleName
         const val IMAGE_ID = "image id"
         const val DESCRIPTION_ID = "description id"
         const val REQUEST_KEY = "request key"
