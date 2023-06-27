@@ -1,9 +1,11 @@
 package com.example.chernykhhomework.presentation.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chernykhhomework.R
 import com.example.chernykhhomework.data.network.entity.LoanRequest
 import com.example.chernykhhomework.domain.repository.LoanRepository
 import com.example.chernykhhomework.presentation.uistate.NewLoanUIState
@@ -14,7 +16,8 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 class NewLoanFragmentViewModel @Inject constructor(
-    private val repository: LoanRepository
+    private val repository: LoanRepository,
+    private val application: Application
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<NewLoanUIState>(NewLoanUIState.Initializing)
@@ -50,19 +53,25 @@ class NewLoanFragmentViewModel @Inject constructor(
     private fun handleException(exception: Exception) {
         when (exception) {
             is NoSuchElementException -> _uiState.value =
-                NewLoanUIState.Error("Authorization error, please re-login to your account")
+                NewLoanUIState.Error(application.getString(R.string.authorization_error))
 
             is SocketTimeoutException -> _uiState.value =
-                NewLoanUIState.Error("Connection time expired")
+                NewLoanUIState.Error(application.getString(R.string.connection_time_expired))
 
             is UnknownHostException -> _uiState.value =
-                NewLoanUIState.Error("No internet connection")
+                NewLoanUIState.Error(application.getString(R.string.no_internet_connection))
 
             is HttpException -> _uiState.value =
-                NewLoanUIState.Error("The loan does not meet acceptable conditions")
+                NewLoanUIState.Error(application.getString(R.string.not_suitable_loan))
 
             else -> _uiState.value =
-                NewLoanUIState.Error("Unknown error ${exception::class}: ${exception.message}")
+                NewLoanUIState.Error(
+                    application.getString(
+                        R.string.unknown_error,
+                        exception::class.toString(),
+                        exception.message
+                    )
+                )
         }
     }
 }

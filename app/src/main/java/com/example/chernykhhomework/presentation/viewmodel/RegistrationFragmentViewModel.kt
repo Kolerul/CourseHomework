@@ -1,9 +1,11 @@
 package com.example.chernykhhomework.presentation.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chernykhhomework.R
 import com.example.chernykhhomework.data.network.entity.Auth
 import com.example.chernykhhomework.domain.repository.AuthRepository
 import com.example.chernykhhomework.presentation.uistate.RegisterUIState
@@ -14,7 +16,8 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 class RegistrationFragmentViewModel @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
+    private val application: Application
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<RegisterUIState>(RegisterUIState.Initializing)
@@ -64,20 +67,31 @@ class RegistrationFragmentViewModel @Inject constructor(
     private fun handleException(exception: Exception) {
         when (exception) {
             is SocketTimeoutException ->
-                _uiState.value = RegisterUIState.Error("Connection time expired. Please, try again")
+                _uiState.value =
+                    RegisterUIState.Error(application.getString(R.string.connection_time_expired))
 
-            is UnknownHostException -> _uiState.value =
-                RegisterUIState.Error("No internet connection")
+            is UnknownHostException ->
+                _uiState.value =
+                    RegisterUIState.Error(application.getString(R.string.no_internet_connection))
 
             is HttpException -> {
                 when (exception.code()) {
-                    400 -> _uiState.value = RegisterUIState.Error("This login is already occupied")
-                    404 -> _uiState.value = RegisterUIState.Error("Wrong login or password")
+                    400 -> _uiState.value =
+                        RegisterUIState.Error(application.getString(R.string.login_occupied))
+
+                    404 -> _uiState.value =
+                        RegisterUIState.Error(application.getString(R.string.wrong_login_or_password))
                 }
             }
 
             else -> _uiState.value =
-                RegisterUIState.Error("Unknown error ${exception::class}: ${exception.message}")
+                RegisterUIState.Error(
+                    application.getString(
+                        R.string.unknown_error,
+                        exception::class.toString(),
+                        exception.message
+                    )
+                )
         }
     }
 

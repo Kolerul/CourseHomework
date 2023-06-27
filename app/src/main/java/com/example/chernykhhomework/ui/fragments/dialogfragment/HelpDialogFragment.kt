@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentHelpDialogBinding
 import com.example.chernykhhomework.presentation.adapter.HelpAdapter
@@ -21,6 +22,7 @@ class HelpDialogFragment @Inject constructor() : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentHelpDialogBinding.inflate(layoutInflater)
 
+
         val imageIdArray = arguments?.getIntArray(IMAGE_ID) ?: IntArray(0)
         val descriptionIdArray = arguments?.getIntArray(DESCRIPTION_ID) ?: IntArray(0)
 
@@ -32,6 +34,8 @@ class HelpDialogFragment @Inject constructor() : DialogFragment() {
             }
         }
 
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(notNullBinding.helpRecyclerView)
         val adapter = HelpAdapter()
         adapter.submitList(helpPageList)
         notNullBinding.helpRecyclerView.adapter = adapter
@@ -45,7 +49,7 @@ class HelpDialogFragment @Inject constructor() : DialogFragment() {
         }
 
         val dialog = AlertDialog.Builder(requireContext())
-            .setTitle("Help")
+            .setTitle(getString(R.string.help))
             .setView(notNullBinding.root)
             .setPositiveButton(getString(R.string.close), listener)
 

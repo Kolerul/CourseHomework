@@ -1,18 +1,18 @@
 <resources>
-    <string name="app_name">ChernykhHomework</string>
+    <string name="app_name" translatable="false">ChernykhHomework</string>
     <string name="login">Login</string>
     <string name="current_login">Login: %s</string>
     <string name="password">Password</string>
     <string name="registration">New</string>
     <string name="log_in">Log in</string>
     <string name="re_log_in">Re-log in</string>
-    <string name="some_warning">Some Warning</string>
+    <string name="some_warning" translatable="false">Some Warning</string>
     <string name="login_warning">The name field or password field should not be empty</string>
     <string name="amount_title">Amount (limit %d):</string>
     <string name="firstname_title">Firstname:</string>
     <string name="lastname_title">Lastname:</string>
     <string name="percent_title">Percent:</string>
-    <string name="percent">%d (%)</string>
+    <string name="percent" translatable="false">%d (%)</string>
     <string name="period_title">Period:</string>
     <string name="phone_number_title">Phone number:</string>
     <string name="empty_fields_warning">All fields must be filled in</string>
@@ -43,23 +43,23 @@
     <string name="close">Close</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
-    <string name="page_counter">%d/%d</string>
-    <string name="new_loan_help">You are on the screen that allows you to apply for a new loan. The available conditions for its registration are indicated at the bottom of the screen, where you can see the allowed maximum loan size, the available annual interest and the repayment period. If you agree with them, you can fill in the remaining fields of the application, such as: amount (do not forget about the restriction), firstname, lastname and phone number. After filling in all the fields, you can submit a request by clicking the submit button at the bottom of the screen.</string>
+    <string name="page_counter" translatable="false">%d/%d</string>
+    <string name="new_loan_help">You are on the screen that allows you to apply for a new loan. The available conditions for its registration are listed below and highlighted in yellow. There you can see the allowed maximum loan size, available annual interest and maturity. If you agree with them, you can fill in the remaining fields of the application, such as: amount (do not forget about the restriction), first name, last name and phone number. After filling in all the fields, you can submit a request by clicking the send button at the bottom of the screen.</string>
     <string name="new_loan_help_update">If you are not satisfied with the current conditions, you can click this refresh button at the top of the screen. This button restarts the screen, which will help not only to get new loan terms, but also to send a repeat request to the server if, for example, you did not have Internet access on your device when you first contacted it.</string>
     <string name="new_loan_help_to_list">The To list button at the bottom of the screen will redirect you to a screen with a list of loans</string>
-    <string name="account_icon_help">This button allows you to log out of your account and re-log in if you want to use another account in the application.</string>
-    <string name="loans_list_help">Now you are on the screen with a list of all loans that have been issued to this account. For more information about a specific loan, click on it in the list.</string>
-    <string name="loans_list_help_update">When you click on this icon, you will update the list</string>
+    <string name="account_icon_help">This button allows you to re-log in if you want to use another account in the application.</string>
+    <string name="loans_list_help">Now you are on the screen with a list of all loans for which applications have been accepted from this account. For more information about a specific loan, click on it in the list.</string>
+    <string name="loans_list_help_update">When you click on this icon, you will update the list.</string>
     <string name="add_new_loan_help">Clicking on this icon will take you to another screen to apply for a new loan.</string>
     <string name="loan_help">On this screen you can see detailed information about the loan you have chosen, as well as information about where you can pick up the approved loan or what to do if your application is not approved.</string>
     <string name="contacts">Contacts</string>
-    <string name="not_real_bank_email">notrealbank@email.com</string>
+    <string name="not_real_bank_email" translatable="false">notrealbank@email.com</string>
     <string name="info">Info</string>
     <string name="approved_loan_info">This loan was approved. You can get it to your bank card through the website or get it in person at the nearest bank branch.</string>
     <string name="registered_loan_info">The application for this loan has been registered, but it has not yet been reviewed. Please wait for the application to be approved or contact us using one of the contacts.</string>
     <string name="rejected_loan_info">Unfortunately, for one reason or another, this application was not approved. You can find out the details by phone or using any other way to contact us.</string>
-    <string name="funny_phone_number">8–800–555–35–35</string>
-    <string name="not_real_bank_site">www.notRealBank.com</string>
+    <string name="funny_phone_number" translatable="false">8–800–555–35–35</string>
+    <string name="not_real_bank_site" translatable="false">www.notRealBank.com</string>
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
     <string name="quit_question">Exit the app?</string>
@@ -70,7 +70,8 @@
     <string name="login_occupied">This login is already occupied</string>
     <string name="wrong_login_or_password">Wrong login or password</string>
     <string name="unknown_error">Unknown error %s: %s</string>
-    <string name="not_suitable_loan">The loan does not meet acceptable conditions</string>
+    <string name="not_suitable_loan">The loan does not meet the conditions provided</string>
     <string name="authorization_error">Authorization error, please re-login to your account</string>
     <string name="no_cache">No cached data</string>
+    <string name="new_loan">New loan</string>
 </resources>

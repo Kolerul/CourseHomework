@@ -2,19 +2,20 @@
     <!-- Base application theme. -->
     <style name="Theme.ChernykhHomework" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue_white</item>
-        <item name="colorPrimaryVariant">@color/dark_grey</item>
+        <item name="colorPrimary">@color/grey_blue</item>
+        <item name="colorPrimaryVariant">@color/very_dark_blue</item>
         <item name="colorOnPrimary">@color/blue_white</item>
         <!-- Secondary brand color. -->
         <item name="colorOnSecondary">@color/orange</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/gilroy_light</item>
         <item name="android:textViewStyle">@style/BaseTextStyle</item>
         <item name="recyclerViewStyle">@style/LayoutStyle</item>
         <item name="toolbarStyle">@style/ToolbarStyle</item>
         <item name="cardViewStyle">@style/CardViewStyle</item>
-        <item name="android:buttonStyle">@style/ButtonsStyle</item>
+        <item name="android:dialogTheme">@style/DialogFragmentStyle</item>
     </style>
 
     <style name="BaseTextStyle">
@@ -29,26 +30,33 @@
     </style>
 
     <style name="CardViewStyle">
-        <item name="android:background">@color/grey</item>
+        <item name="cardBackgroundColor">@color/almost_very_dark_blue</item>
     </style>
 
     <style name="ToolbarStyle">
-        <item name="android:background">@color/grey</item>
+        <item name="android:background">@color/almost_very_dark_blue</item>
         <item name="titleTextColor">@color/blue_white</item>
         <item name="android:padding">5dp</item>
         <item name="navigationIcon">@drawable/ic_account_circle</item>
     </style>
 
     <style name="LayoutStyle">
-        <item name="android:background">@color/brown_grey</item>
+        <item name="android:background">@color/very_dark_blue</item>
     </style>
 
-    <style name="DialogFragmentStyle">
+    <style name="DialogFragmentStyle" parent="@android:style/Theme.Dialog">
         <item name="titleTextColor">@color/blue_white</item>
-        <item name="android:background">@color/grey</item>
+        <item name="android:textColor">@color/blue_white</item>
+        <item name="android:background">@color/almost_very_dark_blue</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@color/almost_very_dark_blue</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:gravity">center</item>
     </style>
 
-    <style name="ButtonsStyle">
-        <item name="android:background">@color/dark_grey</item>
-    </style>
 </resources>

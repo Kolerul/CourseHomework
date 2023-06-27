@@ -1,11 +1,13 @@
 package com.example.chernykhhomework.presentation.viewmodel
 
 
+import android.app.Application
 import android.util.NoSuchPropertyException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chernykhhomework.R
 import com.example.chernykhhomework.domain.repository.LoanRepository
 import com.example.chernykhhomework.presentation.uistate.LoansListUIState
 import kotlinx.coroutines.launch
@@ -15,7 +17,8 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 class LoansListFragmentViewModel @Inject constructor(
-    private val repository: LoanRepository
+    private val repository: LoanRepository,
+    private val application: Application
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<LoansListUIState>(LoansListUIState.Initializing)
@@ -36,18 +39,29 @@ class LoansListFragmentViewModel @Inject constructor(
 
     private fun handleException(exception: Exception) {
         when (exception) {
-            is NoSuchElementException -> _uiState.value =
-                LoansListUIState.Error("Authorization error, please re-login to your account")
+            is NoSuchElementException ->
+                _uiState.value =
+                    LoansListUIState.Error(application.getString(R.string.authorization_error))
 
-            is NoSuchPropertyException -> _uiState.value = LoansListUIState.Error("No cached data")
-            is SocketTimeoutException -> _uiState.value =
-                LoansListUIState.Error("Connection time expired")
+            is NoSuchPropertyException ->
+                _uiState.value = LoansListUIState.Error(application.getString(R.string.no_cache))
 
-            is UnknownHostException -> _uiState.value =
-                LoansListUIState.Error("No internet connection")
+            is SocketTimeoutException ->
+                _uiState.value =
+                    LoansListUIState.Error(application.getString(R.string.connection_time_expired))
+
+            is UnknownHostException ->
+                _uiState.value =
+                    LoansListUIState.Error(application.getString(R.string.no_internet_connection))
 
             else -> _uiState.value =
-                LoansListUIState.Error("Unknown error ${exception::class}: ${exception.message}")
+                LoansListUIState.Error(
+                    application.getString(
+                        R.string.unknown_error,
+                        exception::class.toString(),
+                        exception.message
+                    )
+                )
         }
     }
 }

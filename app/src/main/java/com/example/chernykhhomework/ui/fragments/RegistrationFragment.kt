@@ -73,11 +73,10 @@ class RegistrationFragment : Fragment() {
 
                 is RegisterUIState.Initializing -> {
                     showContentLinearLayout()
-                    notNullBinding.warningTextView.isVisible = false
-                    val appIsRunning =
+                    val appWasAlreadyWorking =
                         arguments?.getBoolean(LoansListFragment.APP_IS_RUNNING_ARGUMENT_KEY)
                             ?: false
-                    if (!appIsRunning) {
+                    if (!appWasAlreadyWorking) {
                         viewModel.autoLogIn()
                     } else {
                         notNullBinding.logInButton.text = getString(R.string.re_log_in)
@@ -85,7 +84,6 @@ class RegistrationFragment : Fragment() {
                 }
 
                 is RegisterUIState.Loading -> {
-                    notNullBinding.warningTextView.isVisible = false
                     showLoadingProgressBar()
                 }
 
@@ -145,6 +143,7 @@ class RegistrationFragment : Fragment() {
             contentLinearLayout.visibility = View.VISIBLE
             loadingProgressBar.visibility = View.GONE
             welcomeTextView.visibility = View.GONE
+            warningTextView.isVisible = false
         }
     }
 

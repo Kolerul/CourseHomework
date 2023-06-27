@@ -11,7 +11,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/new_loan_fragment_toolbar"
-        app:title="New loan"
+        app:title="@string/new_loan"
         app:menu="@menu/new_loan_fragment_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

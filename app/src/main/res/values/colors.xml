@@ -19,8 +19,8 @@
     <color name="dark_green">#017301</color>
     <color name="orange">#FF7043</color>
     <color name="very_light_grey">#DDDDDD</color>
-    <color name="dark_grey">#212121</color>
-    <color name="grey">#3c3f41</color>
-    <color name="brown_grey">#2b2b2b</color>
     <color name="blue_white">#97a9be</color>
+    <color name="very_dark_blue">#131931</color>
+    <color name="almost_very_dark_blue">#202c48</color>
+    <color name="grey_blue">#293a53</color>
 </resources>

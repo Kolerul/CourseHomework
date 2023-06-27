@@ -1,7 +1,6 @@
 package com.example.chernykhhomework.di
 
-import android.content.Context
-import com.example.chernykhhomework.presentation.viewmodel.RegistrationFragmentViewModel
+import android.app.Application
 import com.example.chernykhhomework.presentation.ViewModelFactory
 import com.example.chernykhhomework.ui.MainActivity
 import com.example.chernykhhomework.ui.fragments.LoanFragment
@@ -17,13 +16,14 @@ import javax.inject.Singleton
     modules = [
         NetworkModule::class,
         PresentationModule::class,
-        DomainModule::class]
+        DomainModule::class,
+        ApplicationModule::class]
 )
 interface AppComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance context: Context): AppComponent
+        fun create(@BindsInstance application: Application): AppComponent
     }
 
     fun inject(activity: MainActivity)

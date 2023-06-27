@@ -178,7 +178,6 @@
 
             <ImageView
                 android:src="@drawable/ic_post"
-                style="@style/InfoIconStyle"
                 android:id="@+id/email_image"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -198,7 +197,6 @@
                 app:layout_constraintTop_toBottomOf="@id/loan_contact_title_text_view" />
 
             <ImageView
-                style="@style/InfoIconStyle"
                 android:src="@drawable/ic_phone"
                 android:id="@+id/phone_image"
                 android:layout_width="wrap_content"
@@ -219,7 +217,6 @@
                 app:layout_constraintTop_toBottomOf="@id/contacts_email_text_view" />
 
             <ImageView
-                style="@style/InfoIconStyle"
                 android:src="@drawable/ic_internet"
                 android:id="@+id/internet_image"
                 android:layout_width="wrap_content"

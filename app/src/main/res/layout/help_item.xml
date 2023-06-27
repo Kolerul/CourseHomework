@@ -2,8 +2,8 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/blue_191"
     app:cardElevation="4dp"
+    style="@style/CardViewStyle"
     android:layout_margin="6dp"
     android:layout_height="match_parent">
 
@@ -38,7 +38,7 @@
             <TextView
                 style="@style/DialogFragmentText"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="12dp"
                 android:id="@+id/help_page_counter"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
