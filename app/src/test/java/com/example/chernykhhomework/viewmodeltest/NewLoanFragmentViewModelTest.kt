@@ -1,16 +1,16 @@
-package com.example.chernykhhomework
+package com.example.chernykhhomework.viewmodeltest
 
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
+import com.example.chernykhhomework.InstantTaskExecutorExtension
+import com.example.chernykhhomework.R
 import com.example.chernykhhomework.domain.entity.Loan
 import com.example.chernykhhomework.domain.entity.LoanConditions
 import com.example.chernykhhomework.domain.entity.LoanRequest
 import com.example.chernykhhomework.domain.entity.LoanState
 import com.example.chernykhhomework.domain.repository.LoanRepository
 import com.example.chernykhhomework.presentation.entity.ErrorWrapper
-import com.example.chernykhhomework.presentation.uistate.LoansListUIState
 import com.example.chernykhhomework.presentation.uistate.NewLoanUIState
-import com.example.chernykhhomework.presentation.viewmodel.LoansListFragmentViewModel
 import com.example.chernykhhomework.presentation.viewmodel.NewLoanFragmentViewModel
 import junit.framework.TestCase
 import kotlinx.coroutines.Dispatchers

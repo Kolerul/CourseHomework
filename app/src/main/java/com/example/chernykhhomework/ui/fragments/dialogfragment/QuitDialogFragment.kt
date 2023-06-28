@@ -22,7 +22,7 @@ class QuitDialogFragment @Inject constructor() : DialogFragment() {
             dismiss()
         }
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(requireContext(), R.style.DialogFragmentStyle)
             .setPositiveButton(getString(R.string.exit), listener)
             .setNegativeButton(getString(R.string.cancel), listener)
             .setTitle(getString(R.string.quit_question))

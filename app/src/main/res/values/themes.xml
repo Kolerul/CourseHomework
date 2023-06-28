@@ -47,4 +47,9 @@
         <item name="android:background">@color/very_light_grey</item>
     </style>
 
+    <style name="DialogFragmentStyle" parent="@style/Theme.MaterialComponents.Dialog">
+        <item name="android:background">@color/blue_191</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+
 </resources>

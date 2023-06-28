@@ -2,7 +2,6 @@ package com.example.chernykhhomework.data.repositoryImpl
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.chernykhhomework.data.network.SessionData
@@ -26,18 +25,15 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun login(auth: Auth): String = withContext(dispatcher) {
         val response = retrofitService.login(auth)
         val token = response.string()
-        Log.d("AuthRepositoryImpl", token)
         val currentUser = AuthorizedUser(auth.name, auth.password, token)
         sessionData.currentSessionUser = currentUser
         addToSharedPref(auth)
-        Log.d("AuthRepositoryImpl", sessionData.currentSessionUser.toString())
         auth.name
     }
 
 
     override suspend fun registration(auth: Auth): String = withContext(dispatcher) {
         val response = retrofitService.registration(auth)
-        Log.d("AuthRepositoryImpl", response.toString())
         login(auth)
     }
 

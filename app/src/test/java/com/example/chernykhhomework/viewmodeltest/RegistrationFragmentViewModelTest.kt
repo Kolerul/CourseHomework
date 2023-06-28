@@ -1,7 +1,9 @@
-package com.example.chernykhhomework
+package com.example.chernykhhomework.viewmodeltest
 
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
+import com.example.chernykhhomework.InstantTaskExecutorExtension
+import com.example.chernykhhomework.R
 import com.example.chernykhhomework.domain.entity.Auth
 import com.example.chernykhhomework.domain.repository.AuthRepository
 import com.example.chernykhhomework.presentation.entity.ErrorWrapper

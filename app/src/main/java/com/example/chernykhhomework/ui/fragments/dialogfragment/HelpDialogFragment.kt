@@ -48,7 +48,7 @@ class HelpDialogFragment @Inject constructor() : DialogFragment() {
             )
         }
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(requireContext(), R.style.DialogFragmentStyle)
             .setTitle(getString(R.string.help))
             .setView(notNullBinding.root)
             .setPositiveButton(getString(R.string.close), listener)

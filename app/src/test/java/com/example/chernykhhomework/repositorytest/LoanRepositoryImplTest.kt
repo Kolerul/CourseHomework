@@ -1,7 +1,8 @@
-package com.example.chernykhhomework
+package com.example.chernykhhomework.repositorytest
 
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
+import com.example.chernykhhomework.InstantTaskExecutorExtension
 import com.example.chernykhhomework.data.network.SessionData
 import com.example.chernykhhomework.data.network.api.LoansDataSourceApi
 import com.example.chernykhhomework.data.network.entity.AuthorizedUser

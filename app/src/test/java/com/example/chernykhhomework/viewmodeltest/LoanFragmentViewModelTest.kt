@@ -1,18 +1,16 @@
-package com.example.chernykhhomework
+package com.example.chernykhhomework.viewmodeltest
 
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
+import com.example.chernykhhomework.InstantTaskExecutorExtension
+import com.example.chernykhhomework.R
 import com.example.chernykhhomework.domain.entity.Loan
 import com.example.chernykhhomework.domain.entity.LoanState
-import com.example.chernykhhomework.domain.repository.AuthRepository
 import com.example.chernykhhomework.domain.repository.LoanRepository
 import com.example.chernykhhomework.presentation.entity.ErrorWrapper
-import com.example.chernykhhomework.presentation.uistate.LoansListUIState
-import com.example.chernykhhomework.presentation.uistate.RegisterUIState
-import com.example.chernykhhomework.presentation.viewmodel.LoansListFragmentViewModel
-import com.example.chernykhhomework.presentation.viewmodel.RegistrationFragmentViewModel
+import com.example.chernykhhomework.presentation.uistate.LoanUIState
+import com.example.chernykhhomework.presentation.viewmodel.LoanFragmentViewModel
 import junit.framework.TestCase
-import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
@@ -26,28 +24,29 @@ import org.junit.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
+import java.lang.RuntimeException
 
 @ExtendWith(InstantTaskExecutorExtension::class)
-class LoanListFragmentViewModelTest {
+class LoanFragmentViewModelTest {
 
     private val loanRepository: LoanRepository = mock()
 
     private val viewModel by lazy {
-        LoansListFragmentViewModel(
+        LoanFragmentViewModel(
             loanRepository
         )
     }
 
-    private val loan1 = Loan(1000, "", "A", 1, "", 4.0, 1, "", LoanState.APPROVED)
-    private val loan2 = Loan(1000, "", "B", 2, "", 4.0, 2, "", LoanState.REGISTERED)
-    private val loan3 = Loan(1000, "", "C", 3, "", 4.0, 3, "", LoanState.APPROVED)
-    private val loan4 = Loan(1000, "", "D", 4, "", 4.0, 4, "", LoanState.REGISTERED)
-
-    private val listOfLoans = listOf(
-        loan1,
-        loan2,
-        loan3,
-        loan4
+    private val loan = Loan(
+        777,
+        "28.06.2023",
+        "Artorias",
+        1,
+        "The Traveler of the Abyss",
+        4.0,
+        6,
+        "759434",
+        LoanState.APPROVED
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -66,32 +65,26 @@ class LoanListFragmentViewModelTest {
     }
 
     @Test
-    fun `WHEN getAllLoans is successful EXPECT Success(listOfLoans)`() = runTestWithArch {
-        whenever(loanRepository.getAllLoans()).thenReturn(listOfLoans)
+    fun `WHEN getLoanById(1) is successful EXPECT Success(Loan)`() = runTestWithArch {
+        whenever(loanRepository.getLoanById(1)).thenReturn(loan)
 
-        viewModel.getLoansList()
-        val expected = LoansListUIState.Success(listOfLoans)
+        viewModel.getLoanById(1)
+        val expected = LoanUIState.Success(loan)
         val actual = viewModel.uiState.value
-        assertEquals(expected, actual)
+        TestCase.assertEquals(expected, actual)
     }
 
     @Test
-    fun `WHEN getAllLoans is not successful EXPECT Error(RuntimeException)`() = runTestWithArch {
-        whenever(loanRepository.getAllLoans()).thenThrow(RuntimeException())
+    fun `WHEN getLoanById(1) is failure EXPECT Error()`() = runTestWithArch {
+        whenever(loanRepository.getLoanById(1)).thenThrow(RuntimeException())
 
-        viewModel.getLoansList()
-        val expected =
-            LoansListUIState.Error(
-                ErrorWrapper(
-                    R.string.unknown_error,
-                    RuntimeException::class.java,
-                    "null"
-                )
-            )
+        viewModel.getLoanById(1)
+        val expected = LoanUIState.Error(
+            ErrorWrapper(R.string.unknown_error, RuntimeException::class.java, "null")
+        )
         val actual = viewModel.uiState.value
-        assertEquals(expected, actual)
+        TestCase.assertEquals(expected, actual)
     }
-
 
     private fun runTestWithArch(testBody: suspend TestScope.() -> Unit) = runTest {
         ArchTaskExecutor.getInstance()

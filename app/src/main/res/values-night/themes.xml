@@ -8,7 +8,7 @@
         <!-- Secondary brand color. -->
         <item name="colorOnSecondary">@color/orange</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/gilroy_light</item>
         <item name="android:textViewStyle">@style/BaseTextStyle</item>
@@ -44,19 +44,11 @@
         <item name="android:background">@color/very_dark_blue</item>
     </style>
 
-    <style name="DialogFragmentStyle" parent="@android:style/Theme.Dialog">
+    <style name="DialogFragmentStyle" parent="@style/Theme.MaterialComponents.Dialog">
         <item name="titleTextColor">@color/blue_white</item>
-        <item name="android:textColor">@color/blue_white</item>
         <item name="android:background">@color/almost_very_dark_blue</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowBackground">@color/almost_very_dark_blue</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowTitleStyle">@null</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
-        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
-        <item name="android:gravity">center</item>
+        <item name="colorOnPrimary">@color/blue_white</item>
     </style>
+
 
 </resources>
