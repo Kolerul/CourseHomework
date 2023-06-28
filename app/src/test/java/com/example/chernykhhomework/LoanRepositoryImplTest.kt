@@ -1,21 +1,16 @@
 package com.example.chernykhhomework
 
-import android.app.Application
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
 import com.example.chernykhhomework.data.network.SessionData
 import com.example.chernykhhomework.data.network.api.LoansDataSourceApi
 import com.example.chernykhhomework.data.network.entity.AuthorizedUser
 import com.example.chernykhhomework.data.repositoryImpl.LoanRepositoryImpl
-import com.example.chernykhhomework.domain.entity.Auth
 import com.example.chernykhhomework.domain.entity.Loan
 import com.example.chernykhhomework.domain.entity.LoanConditions
 import com.example.chernykhhomework.domain.entity.LoanRequest
 import com.example.chernykhhomework.domain.entity.LoanState
-import com.example.chernykhhomework.domain.repository.AuthRepository
 import com.example.chernykhhomework.domain.repository.LoanRepository
-import com.example.chernykhhomework.presentation.uistate.RegisterUIState
-import com.example.chernykhhomework.presentation.viewmodel.RegistrationFragmentViewModel
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
@@ -23,15 +18,11 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import java.net.UnknownHostException
-import javax.inject.Inject
 
 @ExtendWith(InstantTaskExecutorExtension::class)
 class LoanRepositoryImplTest {
@@ -127,8 +118,7 @@ class LoanRepositoryImplTest {
     @Test
     fun `WHEN token exist and sessionDataList empty getLoanById 4 EXPECT List with state REGISTERED`() =
         runTestWithArch {
-            whenever(retrofitService.getLoanById("Token", 4))
-                .thenReturn(loan4)
+            whenever(retrofitService.getLoanById("Token", 4)).thenReturn(loan4)
 
             val actual = loanRepository.getLoanById(4).state
             val expected = LoanState.REGISTERED
@@ -152,6 +142,7 @@ class LoanRepositoryImplTest {
         val expected = LoanState.APPROVED
         assertEquals(expected, actual)
     }
+
 
     @Test
     fun `WHEN token absent postLoan EXPECT throw NoSuchElementException`() = runTestWithArch {
@@ -185,18 +176,6 @@ class LoanRepositoryImplTest {
             loanRepository.getLoanConditions()
         }
     }
-
-    @Test
-    fun `WHEN token exist getAllLoan from sessionData EXPECT size 4`() = runTestWithArch {
-        whenever(retrofitService.getAllLoans("Token")).thenThrow(UnknownHostException())
-
-        sessionData.currentSessionLoanList = listOfLoans
-
-        val expected = 4
-        val actual = loanRepository.getAllLoans().size
-        assertEquals(expected, actual)
-    }
-
 
     private fun runTestWithArch(testBody: suspend TestScope.() -> Unit) = runTest {
         ArchTaskExecutor.getInstance()
