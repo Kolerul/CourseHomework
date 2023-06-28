@@ -20,7 +20,6 @@ import com.example.chernykhhomework.presentation.uistate.LoansListUIState
 import com.example.chernykhhomework.presentation.viewmodel.LoansListFragmentViewModel
 import com.example.chernykhhomework.ui.fragments.dialogfragment.HelpDialogFragment
 import com.example.chernykhhomework.ui.fragments.dialogfragment.QuitDialogFragment
-import java.lang.Error
 import javax.inject.Inject
 
 class LoansListFragment : Fragment() {

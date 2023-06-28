@@ -1,6 +1,5 @@
 package com.example.chernykhhomework.data.repositoryImpl
 
-import android.util.Log
 import android.util.NoSuchPropertyException
 import com.example.chernykhhomework.data.network.SessionData
 import com.example.chernykhhomework.data.network.api.LoansDataSourceApi

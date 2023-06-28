@@ -125,8 +125,6 @@ class RegistrationFragment : Fragment() {
                 warningTextView.visibility = View.INVISIBLE
             } else {
                 showWarningText(ErrorWrapper(R.string.empty_fields_warning))
-//                warningTextView.visibility = View.VISIBLE
-//                warningTextView.text = requireContext().getString(R.string.empty_fields_warning)
             }
             hideSoftKeyboard()
         }

@@ -9,15 +9,16 @@
     style="@style/LayoutStyle"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/new_loan_fragment_toolbar"
-        app:title="@string/new_loan"
-        app:menu="@menu/new_loan_fragment_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
+<androidx.appcompat.widget.Toolbar
+    android:id="@+id/new_loan_fragment_toolbar"
+    app:title="@string/new_loan"
+    app:menu="@menu/new_loan_fragment_menu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
 
     <ScrollView
         android:id="@+id/content_layout"
@@ -58,7 +59,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/amount_title_text_view"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                android:autofillHints="" />
 
             <TextView
                 android:id="@+id/first_name_title_text_view"
@@ -71,6 +73,7 @@
 
             <EditText
                 android:id="@+id/first_name_text_view"
+                android:inputType="text"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="6dp"
@@ -79,7 +82,8 @@
                 app:layout_constraintTop_toBottomOf="@id/amount_text_view"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/first_name_title_text_view"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:autofillHints="" />
 
             <TextView
                 android:id="@+id/last_name_title_text_view"
@@ -92,6 +96,7 @@
 
             <EditText
                 android:id="@+id/last_name_text_view"
+                android:inputType="text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
@@ -100,7 +105,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/last_name_title_text_view"
-                app:layout_constraintTop_toBottomOf="@id/first_name_text_view" />
+                app:layout_constraintTop_toBottomOf="@id/first_name_text_view"
+                android:autofillHints="" />
 
             <TextView
                 android:id="@+id/phone_number_title_text_view"
@@ -123,7 +129,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/phone_number_title_text_view"
                 app:layout_constraintTop_toBottomOf="@id/last_name_text_view"
-                tools:ignore="TextFields" />
+                tools:ignore="TextFields"
+                android:autofillHints="" />
 
             <TextView
                 android:layout_marginTop="12dp"
