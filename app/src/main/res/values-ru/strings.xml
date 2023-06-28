@@ -33,8 +33,8 @@
     <string name="successful_new_loan_request">Заявка на получение нового займа была успешно принята</string>
     <string name="error_new_loan_request">К сожалению, при оформлении займа произошла ошибка</string>
     <string name="login_registration_error">Этот логин уже занят</string>
-    <string name="login_or_password_error">Wrong login or password</string>
-    <string name="tap_screen_to_continue">Неверный логин или пароль</string>
+    <string name="login_or_password_error">Неверный логин или пароль</string>
+    <string name="tap_screen_to_continue">Нажмите на экран, чтобы продолжить</string>
     <string name="to_list">К списку</string>
     <string name="conditions">Условия</string>
     <string name="max_amount">Максимальная сумма: %d</string>
