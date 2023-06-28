@@ -1,8 +1,7 @@
 package com.example.chernykhhomework.data.network
 
-import android.util.Log
 import com.example.chernykhhomework.data.network.entity.AuthorizedUser
-import com.example.chernykhhomework.data.network.entity.Loan
+import com.example.chernykhhomework.domain.entity.Loan
 import javax.inject.Inject
 import javax.inject.Singleton
 

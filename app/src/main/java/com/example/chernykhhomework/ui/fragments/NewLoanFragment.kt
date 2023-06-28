@@ -14,8 +14,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
-import com.example.chernykhhomework.data.network.entity.LoanConditions
-import com.example.chernykhhomework.data.network.entity.LoanRequest
+import com.example.chernykhhomework.domain.entity.LoanConditions
+import com.example.chernykhhomework.domain.entity.LoanRequest
 import com.example.chernykhhomework.databinding.FragmentNewLoanBinding
 import com.example.chernykhhomework.presentation.uistate.NewLoanUIState
 import com.example.chernykhhomework.presentation.viewmodel.NewLoanFragmentViewModel
@@ -55,8 +55,27 @@ class NewLoanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState != null) {
+            loanConditions = LoanConditions(
+                maxAmount = savedInstanceState.getLong(MAX_AMOUNT_CONDITION),
+                percent = savedInstanceState.getDouble(PERCENT_CONDITION),
+                period = savedInstanceState.getInt(PERIOD_CONDITION)
+            )
+
+            showConditions(loanConditions!!)
+        }
+
         setUIStateObserver()
         setOnClickListeners()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (loanConditions != null) {
+            outState.putLong(MAX_AMOUNT_CONDITION, loanConditions!!.maxAmount)
+            outState.putDouble(PERCENT_CONDITION, loanConditions!!.percent)
+            outState.putInt(PERIOD_CONDITION, loanConditions!!.period)
+        }
+        super.onSaveInstanceState(outState)
     }
 
     private fun setOnClickListeners() {
@@ -74,13 +93,12 @@ class NewLoanFragment : Fragment() {
                     viewModel.newLoanRequest(loan)
                 }
             } else {
-                notNullBinding.emptyFieldsWarningTextView.isVisible = true
+                showErrorText(getString(R.string.empty_fields_warning))
             }
             hideSoftKeyboard()
         }
 
-        notNullBinding.requestResultLayout.setOnClickListener {
-            hideSoftKeyboard()
+        notNullBinding.successfulResultLayout.setOnClickListener {
             findNavController().navigate(R.id.action_newLoanFragment_to_loansListFragment)
         }
 
@@ -122,9 +140,8 @@ class NewLoanFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is NewLoanUIState.Initializing -> {
-                    viewModel.conditionsRequest()
-                    notNullBinding.emptyFieldsWarningTextView.isVisible = false
                     setNormalScreenState()
+                    viewModel.conditionsRequest()
                     val firstEntry = arguments?.getBoolean(FIRST_ENTRY_KEY) ?: false
                     if (firstEntry) {
                         showHelpDialog()
@@ -140,21 +157,19 @@ class NewLoanFragment : Fragment() {
                     if (state.conditions != null) {
                         showConditions(state.conditions)
                     } else {
-                        showRequestResultLayout()
+                        showSuccessfulResultLayout()
                     }
                 }
 
                 is NewLoanUIState.Error -> {
                     setNormalScreenState()
-                    notNullBinding.emptyFieldsWarningTextView.text = state.message
-                    notNullBinding.emptyFieldsWarningTextView.isVisible = true
+                    showErrorText(state.message)
                 }
             }
         }
     }
 
     private fun showHelpDialog() {
-
         val imageArray = IntArray(4)
         imageArray[0] = R.drawable.ic_loan
         imageArray[1] = R.drawable.ic_update
@@ -202,32 +217,38 @@ class NewLoanFragment : Fragment() {
     private fun setNormalScreenState() {
         notNullBinding.apply {
             contentLayout.visibility = View.VISIBLE
-            requestResultLayout.visibility = View.GONE
+            successfulResultLayout.visibility = View.GONE
             loadingProgressBar.visibility = View.GONE
             newLoanFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = true
+            errorTextView.isVisible = false
         }
     }
 
     private fun setLoadingScreenState() {
         notNullBinding.apply {
             contentLayout.visibility = View.GONE
-            requestResultLayout.visibility = View.GONE
+            successfulResultLayout.visibility = View.GONE
             loadingProgressBar.visibility = View.VISIBLE
             newLoanFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = false
         }
     }
 
-    private fun showRequestResultLayout() {
+    private fun showSuccessfulResultLayout() {
         notNullBinding.apply {
             contentLayout.visibility = View.GONE
-            requestResultLayout.visibility = View.VISIBLE
-            requestResultImage.setImageResource(R.drawable.ic_success)
-            requestResultText.text =
+            successfulResultLayout.visibility = View.VISIBLE
+            successfulResultImage.setImageResource(R.drawable.ic_success)
+            successfulResultText.text =
                 requireContext().getString(R.string.successful_new_loan_request)
             hintTextView.animationBlinking()
             loadingProgressBar.visibility = View.GONE
             newLoanFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = false
         }
+    }
+
+    private fun showErrorText(message: String) {
+        notNullBinding.errorTextView.text = message
+        notNullBinding.errorTextView.isVisible = true
     }
 
     private fun fieldsNotBlank(): Boolean {
@@ -244,5 +265,8 @@ class NewLoanFragment : Fragment() {
 
     companion object {
         const val FIRST_ENTRY_KEY = "first entry"
+        const val MAX_AMOUNT_CONDITION = "max amount"
+        const val PERCENT_CONDITION = "percent"
+        const val PERIOD_CONDITION = "period"
     }
 }

@@ -1,6 +1,6 @@
 package com.example.chernykhhomework.presentation.uistate
 
-import com.example.chernykhhomework.data.network.entity.Loan
+import com.example.chernykhhomework.domain.entity.Loan
 
 sealed class LoanUIState {
     object Initializing : LoanUIState()

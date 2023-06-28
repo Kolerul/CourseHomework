@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chernykhhomework.R
-import com.example.chernykhhomework.data.network.entity.LoanRequest
+import com.example.chernykhhomework.domain.entity.LoanRequest
 import com.example.chernykhhomework.domain.repository.LoanRepository
 import com.example.chernykhhomework.presentation.uistate.NewLoanUIState
 import kotlinx.coroutines.launch

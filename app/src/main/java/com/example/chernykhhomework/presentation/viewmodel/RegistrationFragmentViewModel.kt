@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chernykhhomework.R
-import com.example.chernykhhomework.data.network.entity.Auth
+import com.example.chernykhhomework.domain.entity.Auth
 import com.example.chernykhhomework.domain.repository.AuthRepository
 import com.example.chernykhhomework.presentation.uistate.RegisterUIState
 import kotlinx.coroutines.launch
@@ -29,8 +29,8 @@ class RegistrationFragmentViewModel @Inject constructor(
         val auth = Auth(name, password)
         viewModelScope.launch {
             try {
-                val user = repository.registration(auth)
-                _uiState.value = RegisterUIState.Success(user, true)
+                val authorizedUserName = repository.registration(auth)
+                _uiState.value = RegisterUIState.Success(authorizedUserName, true)
             } catch (e: Exception) {
                 handleException(e)
             }
@@ -43,8 +43,8 @@ class RegistrationFragmentViewModel @Inject constructor(
         val auth = Auth(name, password)
         viewModelScope.launch {
             try {
-                val user = repository.login(auth)
-                _uiState.value = RegisterUIState.Success(user, false)
+                val authorizedUserName = repository.login(auth)
+                _uiState.value = RegisterUIState.Success(authorizedUserName, false)
             } catch (e: Exception) {
                 handleException(e)
             }
@@ -56,8 +56,8 @@ class RegistrationFragmentViewModel @Inject constructor(
         _uiState.value = RegisterUIState.Loading
         viewModelScope.launch {
             try {
-                val user = repository.autoLogin()
-                _uiState.value = RegisterUIState.Success(user, false)
+                val authorizedUserName = repository.autoLogin()
+                _uiState.value = RegisterUIState.Success(authorizedUserName, false)
             } catch (e: Exception) {
                 handleException(e)
             }

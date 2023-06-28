@@ -12,8 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
-import com.example.chernykhhomework.data.network.entity.Loan
-import com.example.chernykhhomework.data.network.entity.LoanState
+import com.example.chernykhhomework.domain.entity.Loan
+import com.example.chernykhhomework.domain.entity.LoanState
 import com.example.chernykhhomework.databinding.FragmentLoanBinding
 import com.example.chernykhhomework.presentation.uistate.LoanUIState
 import com.example.chernykhhomework.presentation.viewmodel.LoanFragmentViewModel
@@ -97,6 +97,7 @@ class LoanFragment : Fragment() {
         }
     }
 
+
     private fun setLoanData(loan: Loan) {
         notNullBinding.apply {
             val title = requireContext().getString(R.string.loan_number, loan.id)
@@ -105,6 +106,7 @@ class LoanFragment : Fragment() {
                 requireContext().getString(R.string.amount, loan.amount)
             val parts = loan.date.split(".")
             val dateAndTime = parts[0].split("T")
+
             loanDate.text =
                 requireContext().getString(R.string.date, "${dateAndTime[0]} ${dateAndTime[1]}")
             loanFirstname.text =

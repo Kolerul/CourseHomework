@@ -1,4 +1,5 @@
-package com.example.chernykhhomework.data.network.entity
+package com.example.chernykhhomework.domain.entity
+
 
 data class Loan(
     val amount: Long,

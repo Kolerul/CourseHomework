@@ -64,20 +64,13 @@ class LoansListFragment : Fragment() {
         setOnMenuItemListener()
         setQuitDialogListener()
         setOnBackPressedListener()
-        setOnButtonClickListener()
-    }
-
-    private fun setOnButtonClickListener() {
-        notNullBinding.useCacheButton.setOnClickListener {
-            viewModel.getLoansList(true)
-        }
     }
 
     private fun setOnMenuItemListener() {
         notNullBinding.loanListFragmentToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.update_button -> {
-                    viewModel.getLoansList(false)
+                    viewModel.getLoansList()
                     true
                 }
 
@@ -106,7 +99,7 @@ class LoansListFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoansListUIState.Initializing -> {
-                    viewModel.getLoansList(false)
+                    viewModel.getLoansList()
                     setNormalScreenState()
                 }
 
@@ -174,7 +167,6 @@ class LoansListFragment : Fragment() {
                     requireActivity().finish()
                 }
             }
-
     }
 
     private fun showHelpDialog() {

@@ -1,6 +1,6 @@
 package com.example.chernykhhomework.data.network.api
 
-import com.example.chernykhhomework.data.network.entity.Auth
+import com.example.chernykhhomework.domain.entity.Auth
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.POST

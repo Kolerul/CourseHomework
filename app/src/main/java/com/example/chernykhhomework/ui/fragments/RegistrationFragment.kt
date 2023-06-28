@@ -89,20 +89,21 @@ class RegistrationFragment : Fragment() {
 
                 is RegisterUIState.Success -> {
                     showContentLinearLayout()
-                    if (state.user != null) {
-                        if (state.firstEntry) {
-                            val bundle = bundleOf(NewLoanFragment.FIRST_ENTRY_KEY to true)
-                            showWelcomeAnimationAndPerformAction(state.user.name) {
-                                findNavController()
-                                    .navigate(
-                                        R.id.action_registrationFragment_to_newLoanFragment,
-                                        bundle
-                                    )
+                    if (state.userName != null) {
+                        val isFirstEntry = state.firstEntry
+                        if (isFirstEntry) {
+                            val bundle = bundleOf(NewLoanFragment.FIRST_ENTRY_KEY to isFirstEntry)
+                            showWelcomeAnimationAndPerformAction(state.userName) {
+                                findNavController().navigate(
+                                    R.id.action_registrationFragment_to_newLoanFragment,
+                                    bundle
+                                )
                             }
                         } else {
-                            showWelcomeAnimationAndPerformAction(state.user.name) {
-                                findNavController()
-                                    .navigate(R.id.action_registrationFragment_to_loansListFragment)
+                            showWelcomeAnimationAndPerformAction(state.userName) {
+                                findNavController().navigate(
+                                    R.id.action_registrationFragment_to_loansListFragment
+                                )
                             }
                         }
                     }

@@ -72,6 +72,6 @@
     <string name="unknown_error">Unknown error %s: %s</string>
     <string name="not_suitable_loan">The loan does not meet the conditions provided</string>
     <string name="authorization_error">Authorization error, please re-login to your account</string>
-    <string name="no_cache">No cached data</string>
+    <string name="no_data">Error: no data. Please check your internet connection</string>
     <string name="new_loan">New loan</string>
 </resources>

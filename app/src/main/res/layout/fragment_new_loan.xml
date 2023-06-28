@@ -167,7 +167,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/percent_condition" />
 
             <TextView
-                android:id="@+id/empty_fields_warning_text_view"
+                android:id="@+id/error_text_view"
                 android:text="@string/empty_fields_warning"
                 android:textColor="@color/red"
                 android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/submit"
                 app:layout_constraintStart_toStartOf="@id/start_guideline"
-                app:layout_constraintTop_toBottomOf="@id/empty_fields_warning_text_view"
+                app:layout_constraintTop_toBottomOf="@id/error_text_view"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
@@ -211,7 +211,7 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/request_result_layout"
+        android:id="@+id/successful_result_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -222,7 +222,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:id="@+id/request_result_image"
+            android:id="@+id/successful_result_image"
             android:src="@drawable/ic_success"
             android:layout_width="200dp"
             android:layout_height="200dp" />
@@ -233,7 +233,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginTop="6dp"
             android:text="@string/successful_new_loan_request"
-            android:id="@+id/request_result_text"
+            android:id="@+id/successful_result_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

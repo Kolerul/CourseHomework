@@ -10,4 +10,5 @@ class ApplicationModule {
 
     @Provides
     fun provideContext(application: Application): Context = application
+
 }

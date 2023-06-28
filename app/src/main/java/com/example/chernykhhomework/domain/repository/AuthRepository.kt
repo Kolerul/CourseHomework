@@ -1,12 +1,12 @@
 package com.example.chernykhhomework.domain.repository
 
-import com.example.chernykhhomework.data.network.entity.Auth
+import com.example.chernykhhomework.domain.entity.Auth
 
 interface AuthRepository {
 
-    suspend fun login(auth: Auth): Auth
+    suspend fun login(auth: Auth): String
 
-    suspend fun registration(auth: Auth): Auth
+    suspend fun registration(auth: Auth): String
 
-    suspend fun autoLogin(): Auth?
+    suspend fun autoLogin(): String?
 }

@@ -14,6 +14,7 @@ import dagger.multibindings.IntoMap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
+
 @Module
 interface PresentationModule {
 
@@ -44,6 +45,7 @@ interface PresentationModule {
     companion object {
         @Provides
         fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+
     }
 
 }

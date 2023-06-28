@@ -1,4 +1,4 @@
-package com.example.chernykhhomework.data.network.entity
+package com.example.chernykhhomework.domain.entity
 
 enum class LoanState(status: String) {
     REGISTERED("REGISTERED"),

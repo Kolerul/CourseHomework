@@ -13,7 +13,6 @@ import com.example.chernykhhomework.presentation.uistate.LoansListUIState
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 class LoansListFragmentViewModel @Inject constructor(
@@ -25,11 +24,11 @@ class LoansListFragmentViewModel @Inject constructor(
     val uiState: LiveData<LoansListUIState>
         get() = _uiState
 
-    fun getLoansList(useCache: Boolean) {
+    fun getLoansList() {
         _uiState.value = LoansListUIState.Loading
         viewModelScope.launch {
             try {
-                val list = repository.getAllLoans(useCache)
+                val list = repository.getAllLoans()
                 _uiState.value = LoansListUIState.Success(list)
             } catch (e: Exception) {
                 handleException(e)
@@ -44,15 +43,11 @@ class LoansListFragmentViewModel @Inject constructor(
                     LoansListUIState.Error(application.getString(R.string.authorization_error))
 
             is NoSuchPropertyException ->
-                _uiState.value = LoansListUIState.Error(application.getString(R.string.no_cache))
+                _uiState.value = LoansListUIState.Error(application.getString(R.string.no_data))
 
             is SocketTimeoutException ->
                 _uiState.value =
                     LoansListUIState.Error(application.getString(R.string.connection_time_expired))
-
-            is UnknownHostException ->
-                _uiState.value =
-                    LoansListUIState.Error(application.getString(R.string.no_internet_connection))
 
             else -> _uiState.value =
                 LoansListUIState.Error(

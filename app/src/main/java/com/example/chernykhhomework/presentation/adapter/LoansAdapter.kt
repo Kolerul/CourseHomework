@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
-import com.example.chernykhhomework.data.network.entity.Loan
+import com.example.chernykhhomework.domain.entity.Loan
 import com.example.chernykhhomework.databinding.LoanItemBinding
 import com.example.chernykhhomework.presentation.viewholders.LoanViewHolder
 

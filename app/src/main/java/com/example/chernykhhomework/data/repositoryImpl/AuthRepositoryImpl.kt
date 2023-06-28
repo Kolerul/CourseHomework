@@ -7,7 +7,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.chernykhhomework.data.network.SessionData
 import com.example.chernykhhomework.data.network.api.AuthorizationApi
-import com.example.chernykhhomework.data.network.entity.Auth
+import com.example.chernykhhomework.domain.entity.Auth
 import com.example.chernykhhomework.data.network.entity.AuthorizedUser
 import com.example.chernykhhomework.domain.repository.AuthRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,31 +23,30 @@ class AuthRepositoryImpl @Inject constructor(
     private val dispatcher: CoroutineDispatcher
 ) : AuthRepository {
 
-    override suspend fun login(auth: Auth): Auth = withContext(dispatcher) {
+    override suspend fun login(auth: Auth): String = withContext(dispatcher) {
         val response = retrofitService.login(auth)
         val token = response.string()
-        Log.d("AuthRepositoryImpl", response.string())
         Log.d("AuthRepositoryImpl", token)
         val currentUser = AuthorizedUser(auth.name, auth.password, token)
         sessionData.currentSessionUser = currentUser
         addToSharedPref(auth)
         Log.d("AuthRepositoryImpl", sessionData.currentSessionUser.toString())
-        auth
+        auth.name
     }
 
 
-    override suspend fun registration(auth: Auth): Auth = withContext(dispatcher) {
+    override suspend fun registration(auth: Auth): String = withContext(dispatcher) {
         val response = retrofitService.registration(auth)
-        Log.d("AuthRepositoryImpl", response.string())
+        Log.d("AuthRepositoryImpl", response.toString())
         login(auth)
     }
 
-    override suspend fun autoLogin(): Auth? = withContext(dispatcher) {
+    override suspend fun autoLogin(): String = withContext(dispatcher) {
         val sharedPreferences = createEncryptedSharedPref()
         val login = sharedPreferences.getString(LOGIN_KEY, "")
         val password = sharedPreferences.getString(PASSWORD_KEY, "")
         if (login == null || password == null || login.isBlank() || password.isBlank()) {
-            null
+            ""
         } else {
             val auth = Auth(login, password)
             login(auth)

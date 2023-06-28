@@ -1,8 +1,8 @@
 package com.example.chernykhhomework.data.network.api
 
-import com.example.chernykhhomework.data.network.entity.Loan
-import com.example.chernykhhomework.data.network.entity.LoanConditions
-import com.example.chernykhhomework.data.network.entity.LoanRequest
+import com.example.chernykhhomework.domain.entity.Loan
+import com.example.chernykhhomework.domain.entity.LoanConditions
+import com.example.chernykhhomework.domain.entity.LoanRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header

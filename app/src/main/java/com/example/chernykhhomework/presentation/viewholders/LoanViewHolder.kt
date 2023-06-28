@@ -3,8 +3,8 @@ package com.example.chernykhhomework.presentation.viewholders
 import android.os.Build
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chernykhhomework.R
-import com.example.chernykhhomework.data.network.entity.Loan
-import com.example.chernykhhomework.data.network.entity.LoanState
+import com.example.chernykhhomework.domain.entity.Loan
+import com.example.chernykhhomework.domain.entity.LoanState
 import com.example.chernykhhomework.databinding.LoanItemBinding
 
 
