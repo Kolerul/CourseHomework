@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.domain.entity.Auth
 import com.example.chernykhhomework.domain.repository.AuthRepository
+import com.example.chernykhhomework.presentation.entity.ErrorWrapper
 import com.example.chernykhhomework.presentation.uistate.RegisterUIState
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -16,8 +17,7 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 class RegistrationFragmentViewModel @Inject constructor(
-    private val repository: AuthRepository,
-    private val application: Application
+    private val repository: AuthRepository
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<RegisterUIState>(RegisterUIState.Initializing)
@@ -65,34 +65,31 @@ class RegistrationFragmentViewModel @Inject constructor(
     }
 
     private fun handleException(exception: Exception) {
-        when (exception) {
-            is SocketTimeoutException ->
-                _uiState.value =
-                    RegisterUIState.Error(application.getString(R.string.connection_time_expired))
+        val errorCode = when (exception) {
+            is SocketTimeoutException -> R.string.connection_time_expired
 
-            is UnknownHostException ->
-                _uiState.value =
-                    RegisterUIState.Error(application.getString(R.string.no_internet_connection))
+            is UnknownHostException -> R.string.no_internet_connection
 
             is HttpException -> {
                 when (exception.code()) {
-                    400 -> _uiState.value =
-                        RegisterUIState.Error(application.getString(R.string.login_occupied))
+                    400 -> R.string.login_occupied
 
-                    404 -> _uiState.value =
-                        RegisterUIState.Error(application.getString(R.string.wrong_login_or_password))
+                    404 -> R.string.wrong_login_or_password
+                    else -> R.string.unknown_error
                 }
             }
 
-            else -> _uiState.value =
-                RegisterUIState.Error(
-                    application.getString(
-                        R.string.unknown_error,
-                        exception::class.toString(),
-                        exception.message
-                    )
-                )
+            else -> R.string.unknown_error
         }
+
+        _uiState.value = RegisterUIState.Error(
+            error = ErrorWrapper(
+                errorCode,
+                exception::class.java,
+                exception.message.toString()
+            )
+
+        )
     }
 
 }

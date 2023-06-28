@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentRegistrationBinding
+import com.example.chernykhhomework.presentation.entity.ErrorWrapper
 import com.example.chernykhhomework.presentation.uistate.RegisterUIState
 import com.example.chernykhhomework.presentation.viewmodel.RegistrationFragmentViewModel
 import com.example.chernykhhomework.ui.util.animationAppearanceFromZeroAlpha
@@ -111,10 +112,7 @@ class RegistrationFragment : Fragment() {
 
                 is RegisterUIState.Error -> {
                     showContentLinearLayout()
-                    notNullBinding.apply {
-                        warningTextView.isVisible = true
-                        warningTextView.text = state.message
-                    }
+                    showWarningText(state.error)
                 }
             }
         }
@@ -126,8 +124,9 @@ class RegistrationFragment : Fragment() {
                 action.invoke()
                 warningTextView.visibility = View.INVISIBLE
             } else {
-                warningTextView.visibility = View.VISIBLE
-                warningTextView.text = requireContext().getString(R.string.empty_fields_warning)
+                showWarningText(ErrorWrapper(R.string.empty_fields_warning))
+//                warningTextView.visibility = View.VISIBLE
+//                warningTextView.text = requireContext().getString(R.string.empty_fields_warning)
             }
             hideSoftKeyboard()
         }
@@ -153,6 +152,17 @@ class RegistrationFragment : Fragment() {
             contentLinearLayout.visibility = View.GONE
             loadingProgressBar.visibility = View.VISIBLE
             welcomeTextView.visibility = View.GONE
+        }
+    }
+
+    private fun showWarningText(error: ErrorWrapper) {
+        notNullBinding.apply {
+            warningTextView.isVisible = true
+            warningTextView.text = requireContext().getString(
+                error.errorCode,
+                error.errorClass.toString(),
+                error.errorMessage
+            )
         }
     }
 

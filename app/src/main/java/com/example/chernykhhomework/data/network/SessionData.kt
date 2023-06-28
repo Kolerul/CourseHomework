@@ -2,6 +2,7 @@ package com.example.chernykhhomework.data.network
 
 import com.example.chernykhhomework.data.network.entity.AuthorizedUser
 import com.example.chernykhhomework.domain.entity.Loan
+import com.example.chernykhhomework.domain.entity.LoanConditions
 import javax.inject.Inject
 import javax.inject.Singleton
 

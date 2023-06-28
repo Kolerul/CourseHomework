@@ -15,6 +15,7 @@ import com.example.chernykhhomework.R
 import com.example.chernykhhomework.domain.entity.Loan
 import com.example.chernykhhomework.domain.entity.LoanState
 import com.example.chernykhhomework.databinding.FragmentLoanBinding
+import com.example.chernykhhomework.presentation.entity.ErrorWrapper
 import com.example.chernykhhomework.presentation.uistate.LoanUIState
 import com.example.chernykhhomework.presentation.viewmodel.LoanFragmentViewModel
 import com.example.chernykhhomework.ui.fragments.dialogfragment.HelpDialogFragment
@@ -91,7 +92,7 @@ class LoanFragment : Fragment() {
                 }
 
                 is LoanUIState.Error -> {
-                    showErrorLayout(state.message)
+                    showErrorLayout(state.error)
                 }
             }
         }
@@ -167,12 +168,16 @@ class LoanFragment : Fragment() {
         }
     }
 
-    private fun showErrorLayout(errorMessage: String) {
+    private fun showErrorLayout(error: ErrorWrapper) {
         notNullBinding.apply {
             contentLayout.visibility = View.GONE
             loadingProgressBar.visibility = View.GONE
             errorLayout.visibility = View.VISIBLE
-            errorText.text = errorMessage
+            errorText.text = requireContext().getString(
+                error.errorCode,
+                error.errorClass,
+                error.errorMessage
+            )
         }
     }
 

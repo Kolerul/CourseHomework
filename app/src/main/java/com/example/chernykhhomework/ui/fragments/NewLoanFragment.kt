@@ -17,6 +17,7 @@ import com.example.chernykhhomework.R
 import com.example.chernykhhomework.domain.entity.LoanConditions
 import com.example.chernykhhomework.domain.entity.LoanRequest
 import com.example.chernykhhomework.databinding.FragmentNewLoanBinding
+import com.example.chernykhhomework.presentation.entity.ErrorWrapper
 import com.example.chernykhhomework.presentation.uistate.NewLoanUIState
 import com.example.chernykhhomework.presentation.viewmodel.NewLoanFragmentViewModel
 import com.example.chernykhhomework.ui.fragments.dialogfragment.HelpDialogFragment
@@ -83,17 +84,17 @@ class NewLoanFragment : Fragment() {
             if (fieldsNotBlank()) {
                 notNullBinding.apply {
                     val loan = LoanRequest(
-                        amountTextView.text.toString().toLong(),
-                        firstNameTextView.text.toString(),
-                        lastNameTextView.text.toString(),
-                        loanConditions?.percent ?: 0.0,
-                        loanConditions?.period ?: 0,
-                        phoneNumberTextView.text.toString()
+                        amount = amountTextView.text.toString().toLong(),
+                        firstName = firstNameTextView.text.toString(),
+                        lastName = lastNameTextView.text.toString(),
+                        percent = loanConditions?.percent ?: 0.0,
+                        period = loanConditions?.period ?: 0,
+                        phoneNumber = phoneNumberTextView.text.toString()
                     )
                     viewModel.newLoanRequest(loan)
                 }
             } else {
-                showErrorText(getString(R.string.empty_fields_warning))
+                showErrorText(ErrorWrapper(R.string.empty_fields_warning))
             }
             hideSoftKeyboard()
         }
@@ -163,7 +164,7 @@ class NewLoanFragment : Fragment() {
 
                 is NewLoanUIState.Error -> {
                     setNormalScreenState()
-                    showErrorText(state.message)
+                    showErrorText(state.error)
                 }
             }
         }
@@ -246,8 +247,12 @@ class NewLoanFragment : Fragment() {
         }
     }
 
-    private fun showErrorText(message: String) {
-        notNullBinding.errorTextView.text = message
+    private fun showErrorText(error: ErrorWrapper) {
+        notNullBinding.errorTextView.text = requireContext().getString(
+            error.errorCode,
+            error.errorClass,
+            error.errorMessage
+        )
         notNullBinding.errorTextView.isVisible = true
     }
 

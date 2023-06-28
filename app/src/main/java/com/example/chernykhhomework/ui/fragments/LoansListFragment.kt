@@ -15,10 +15,12 @@ import com.example.chernykhhomework.LoanApplication
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.databinding.FragmentLoansListBinding
 import com.example.chernykhhomework.presentation.adapter.LoansAdapter
+import com.example.chernykhhomework.presentation.entity.ErrorWrapper
 import com.example.chernykhhomework.presentation.uistate.LoansListUIState
 import com.example.chernykhhomework.presentation.viewmodel.LoansListFragmentViewModel
 import com.example.chernykhhomework.ui.fragments.dialogfragment.HelpDialogFragment
 import com.example.chernykhhomework.ui.fragments.dialogfragment.QuitDialogFragment
+import java.lang.Error
 import javax.inject.Inject
 
 class LoansListFragment : Fragment() {
@@ -113,7 +115,7 @@ class LoansListFragment : Fragment() {
                 }
 
                 is LoansListUIState.Error ->
-                    setErrorScreenState(state.message)
+                    setErrorScreenState(state.error)
             }
         }
     }
@@ -142,13 +144,17 @@ class LoansListFragment : Fragment() {
         }
     }
 
-    private fun setErrorScreenState(message: String) {
+    private fun setErrorScreenState(error: ErrorWrapper) {
         notNullBinding.apply {
             loanRecyclerView.visibility = View.GONE
             loadingProgressBar.visibility = View.GONE
             errorLayout.visibility = View.VISIBLE
             loanListFragmentToolbar.menu.findItem(R.id.update_button).isEnabled = true
-            errorText.text = message
+            errorText.text = requireContext().getString(
+                error.errorCode,
+                error.errorClass,
+                error.errorMessage
+            )
         }
     }
 

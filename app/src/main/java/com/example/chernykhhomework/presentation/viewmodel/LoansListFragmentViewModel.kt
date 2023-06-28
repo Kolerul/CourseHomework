@@ -9,15 +9,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chernykhhomework.R
 import com.example.chernykhhomework.domain.repository.LoanRepository
+import com.example.chernykhhomework.presentation.entity.ErrorWrapper
 import com.example.chernykhhomework.presentation.uistate.LoansListUIState
+import com.example.chernykhhomework.presentation.uistate.RegisterUIState
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class LoansListFragmentViewModel @Inject constructor(
-    private val repository: LoanRepository,
-    private val application: Application
+    private val repository: LoanRepository
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<LoansListUIState>(LoansListUIState.Initializing)
@@ -37,26 +38,22 @@ class LoansListFragmentViewModel @Inject constructor(
     }
 
     private fun handleException(exception: Exception) {
-        when (exception) {
-            is NoSuchElementException ->
-                _uiState.value =
-                    LoansListUIState.Error(application.getString(R.string.authorization_error))
+        val errorCode = when (exception) {
+            is NoSuchElementException -> R.string.authorization_error
 
-            is NoSuchPropertyException ->
-                _uiState.value = LoansListUIState.Error(application.getString(R.string.no_data))
+            is NoSuchPropertyException -> R.string.no_data
 
-            is SocketTimeoutException ->
-                _uiState.value =
-                    LoansListUIState.Error(application.getString(R.string.connection_time_expired))
+            is SocketTimeoutException -> R.string.connection_time_expired
 
-            else -> _uiState.value =
-                LoansListUIState.Error(
-                    application.getString(
-                        R.string.unknown_error,
-                        exception::class.toString(),
-                        exception.message
-                    )
-                )
+            else -> R.string.unknown_error
         }
+
+        _uiState.value = LoansListUIState.Error(
+            ErrorWrapper(
+                errorCode,
+                exception::class.java,
+                exception.message.toString()
+            )
+        )
     }
 }
